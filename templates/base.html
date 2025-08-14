@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Vangari Mama{% endblock %}</title>
+    
+    <!-- Google Fonts and Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* Modern Dark Theme CSS */
+        :root {
+            --dark-bg: #111827;
+            --dark-card: #1F2937;
+            --primary-blue: #3B82F6;
+            --primary-hover: #2563EB;
+            --text-light: #F9FAFB;
+            --text-muted: #9CA3AF;
+            --border-color: #374151;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            background-color: var(--dark-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+        .navbar .logo i {
+            color: var(--primary-blue);
+            margin-right: 0.5rem;
+        }
+
+        .navbar .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .navbar .nav-links a:hover {
+            color: var(--text-light);
+        }
+
+        .navbar .nav-buttons .btn {
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            transition: background-color 0.2s ease;
+            border: 1px solid transparent;
+        }
+        .navbar .nav-buttons .btn-signin {
+            color: var(--text-light);
+            margin-right: 0.5rem;
+        }
+        .navbar .nav-buttons .btn-signin:hover {
+            background-color: var(--dark-card);
+        }
+        .navbar .nav-buttons .btn-getstarted {
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+        }
+        .navbar .nav-buttons .btn-getstarted:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* --- Main Content --- */
+        main {
+            padding: 4rem 0;
+        }
+
+        /* --- Form Styles for Login/Register --- */
+        .form-container {
+            max-width: 450px;
+            margin: 2rem auto;
+            background-color: var(--dark-card);
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+        }
+        .form-container h1 {
+            text-align: center;
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background-color: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        .form-btn {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 0.5rem;
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .form-btn:hover {
+            background-color: var(--primary-hover);
+        }
+        .form-switch-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+        }
+        .form-switch-link a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+        .alert-danger {
+            background-color: #dc354520;
+            color: #f8d7da;
+        }
+        .alert-success {
+            background-color: #28a74520;
+            color: #d4edda;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar container">
+        <a href="{{ url_for('home') }}" class="logo"><i class="fas fa-recycle"></i>Vangari Mama</a>
+        <nav class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="#">Available Posts</a>
+            <a href="#">How It Works</a>
+        </nav>
+        <div class="nav-buttons">
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('logout') }}" class="btn btn-signin">Log Out</a>
+                {% if current_user.is_admin %}
+                <a href="{{ url_for('admin.index') }}" class="btn btn-getstarted">Admin Panel</a>
+                {% else %}
+                <a href="#" class="btn btn-getstarted">My Dashboard</a>
+                {% endif %}
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-signin">Sign In</a>
+                <a href="{{ url_for('register') }}" class="btn btn-getstarted">Get Started</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="container">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+</html>

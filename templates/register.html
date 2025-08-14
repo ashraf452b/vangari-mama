@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account - Vangari Mama{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Create Your Vangari Mama Account</h1>
+    <form method="POST" action="{{ url_for('register') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label for="username">Username</label>
+            {{ form.username(class="form-control", id="username", placeholder="your_username") }}
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            {{ form.email(class="form-control", id="email", placeholder="you@example.com") }}
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            {{ form.password(class="form-control", id="password", placeholder="••••••••") }}
+        </div>
+        <div class="form-group">
+            <div class="form-group">
+    <label for="user_type">Register as</label>
+    {{ form.user_type(class="form-control", id="user_type") }}
+</div>
+            {{ form.submit(class="form-btn") }}
+        </div>
+    </form>
+    <div class="form-switch-link">
+        Already have an account? <a href="{{ url_for('login') }}">Sign In</a>
+    </div>
+</div>
+{% endblock %}

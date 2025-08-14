@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.trash_type }} - Vangari Mama{% endblock %}
+
+{% block content %}
+<style>
+    .post-details-container {
+        background-color: var(--dark-card);
+        border: 1px solid var(--border-color);
+        border-radius: 0.75rem;
+        padding: 2.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .post-header {
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .post-header h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin: 0;
+    }
+    .post-header .price {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+    }
+    .post-meta {
+        display: flex;
+        gap: 2rem;
+        color: var(--text-muted);
+        margin-top: 1rem;
+    }
+    .post-meta span i {
+        margin-right: 0.5rem;
+    }
+    .post-body p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+    .action-btn {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 0.8rem 2rem;
+        background-color: #10B981; /* Green for accepting */
+        color: var(--text-light);
+        text-decoration: none;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        transition: background-color 0.2s ease;
+    }
+    .action-btn:hover {
+        background-color: #059669;
+    }
+</style>
+
+<div class="container">
+    <div class="post-details-container">
+        <div class="post-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>{{ post.trash_type }}</h1>
+                <span class="price">${{ "%.2f"|format(post.price) }}</span>
+            </div>
+            <div class="post-meta">
+                <span><i class="fas fa-user"></i>Posted by: {{ post.owner.username }}</span>
+                <span><i class="fas fa-calendar-alt"></i>On: {{ post.created_at.strftime('%B %d, %Y') }}</span>
+            </div>
+        </div>
+        <div class="post-body">
+            <h4>Details:</h4>
+            <ul>
+                <li><strong>Quantity:</strong> {{ post.quantity }} units</li>
+                <li><strong>Location:</strong> {{ post.location }}</li>
+                <li><strong>Status:</strong> <span class="badge badge-warning">{{ post.status }}</span></li>
+            </ul>
+            <h4>Description:</h4>
+            <p>{{ post.description }}</p>
+
+            {% if current_user.is_authenticated and current_user.user_type == 'collector' and post.status == 'pending' %}
+                <a href="#" class="action-btn">Accept Collection Job</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
