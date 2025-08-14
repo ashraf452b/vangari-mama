@@ -3,71 +3,65 @@
 {% block title %}My Dashboard - Vangari Mama{% endblock %}
 
 {% block content %}
-<style>
-    .dashboard-header {
-        margin-bottom: 2rem;
-    }
-    .dashboard-header h1 {
-        font-size: 2.25rem;
-        font-weight: 800;
-    }
-    .dashboard-grid {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        gap: 2rem;
-    }
-    .profile-card, .posts-list {
-        background-color: var(--dark-card);
-        border: 1px solid var(--border-color);
-        border-radius: 0.75rem;
-        padding: 1.5rem;
-    }
-    .profile-card h3 {
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 1rem;
-        margin-bottom: 1rem;
-    }
-    .posts-list-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 1rem;
-        margin-bottom: 1rem;
-    }
-    .create-post-btn {
-        background-color: var(--primary-blue);
-        color: var(--text-light);
-        text-decoration: none;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        font-weight: 700;
-    }
-</style>
-
 <div class="container">
     <div class="dashboard-header">
-        <h1>Welcome, {{ current_user.username }}!</h1>
+        <h1>Dashboard</h1>
+        <p>Welcome back, {{ current_user.username }}! Here's an overview of your activity.</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <i class="fas fa-weight-hanging"></i>
+            <div class="stat-info">
+                <h4>Total Sold</h4>
+                <p>{{ "%.2f"|format(total_kg_sold) }} Kg</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-hand-holding-usd"></i>
+            <div class="stat-info">
+                <h4>Total Earnings</h4>
+                <p>৳ {{ "%.2f"|format(total_earnings) }}</p>
+            </div>
+        </div>
     </div>
 
     <div class="dashboard-grid">
         <div class="profile-card">
-            <h3>My Profile</h3>
-            <p><strong>Username:</strong> {{ current_user.username }}</p>
-            <p><strong>Email:</strong> {{ current_user.email }}</p>
-            <p><strong>User Type:</strong> {{ current_user.user_type.title() }}</p>
+            <h3 class="card-title">My Profile</h3>
+            <div class="profile-info">
+                <p><i class="fas fa-user fa-fw"></i> {{ current_user.username }}</p>
+                <p><i class="fas fa-envelope fa-fw"></i> {{ current_user.email }}</p>
+                <p><i class="fas fa-tag fa-fw"></i> {{ current_user.user_type.title() }}</p>
+            </div>
         </div>
         <div class="posts-list">
             <div class="posts-list-header">
-                <h3>My Posts</h3>
-                <a href="{{ url_for('create_post') }}" class="create-post-btn">Create New Post</a>
+                <h3 class="card-title">My Posts</h3>
+                <a href="{{ url_for('create_post') }}" class="create-post-btn">
+                    <i class="fas fa-plus"></i> Create Post
+                </a>
             </div>
-            <!-- এখানে ব্যবহারকারীর পোস্টগুলো লুপ করে দেখানো হবে -->
-            {% for post in user_posts %}
-                <p>{{ post.trash_type }} - Status: {{ post.status }}</p>
+            
+            {% if user_posts %}
+                {% for post in user_posts %}
+                <div class="post-item">
+                    <span class="post-details">{{ post.trash_type.title() }}</span>
+                    
+                    {% if post.status.lower() == 'pending' %}
+                        <span class="status-badge status-pending">Pending</span>
+                    {% elif post.status.lower() == 'completed' %}
+                        <span class="status-badge status-completed">Completed</span>
+                    {% else %}
+                        <span class="status-badge">{{ post.status.title() }}</span>
+                    {% endif %}
+                </div>
+                {% endfor %}
             {% else %}
-                <p>You have not created any posts yet.</p>
-            {% endfor %}
+                <div class="no-posts-message">
+                    <p>You have not created any posts yet.</p>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

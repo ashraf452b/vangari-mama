@@ -1,196 +1,36 @@
 {% extends "base.html" %}
 
-{% block title %}Collector Dashboard - ScrapMama{% endblock %}
+{% block title %}Collector Dashboard - Vangari Mama{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <div class="row mb-4">
-        <div class="col-12">
-            <h2 class="fw-bold mb-1">Collector Dashboard</h2>
-            <p class="text-muted mb-0">Find nearby pickups and manage your collections</p>
-        </div>
+<div class="container">
+    <div class="dashboard-header">
+        <h1>Collector Dashboard</h1>
+        <p>Find nearby pickups and manage your collections.</p>
     </div>
-    
-    <!-- Stats Cards -->
-    <div class="row g-4 mb-4">
-        <div class="col-md-3">
-            <div class="card bg-info bg-opacity-10 border-info">
-                <div class="card-body text-center">
-                    <i class="fas fa-map-marker-alt text-info fs-2 mb-2"></i>
-                    <h4 class="fw-bold text-info">{{ available_posts|length }}</h4>
-                    <p class="mb-0 text-info">Available Pickups</p>
-                </div>
-            </div>
+
+    <div class="posts-list">
+        <div class="posts-list-header">
+            <h3 class="card-title">Available Pickups</h3>
         </div>
         
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <i class="fas fa-truck fs-2 mb-2"></i>
-                    <h4 class="fw-bold">{{ my_pickups|length }}</h4>
-                    <p class="mb-0 text-muted">My Pickups</p>
+        {% if posts %}
+            <div class="post-card-grid">
+                {% for post in posts %}
+                <div class="post-card">
+                    <h4>{{ post.trash_type.title() }}</h4>
+                    <p class="post-card-info"><i class="fas fa-map-marker-alt"></i> {{ post.location }}</p>
+                    <p class="post-card-info"><i class="fas fa-phone-alt"></i> {{ post.phone_number }}</p>
+                    <p class="post-card-price">Asking Price: ৳{{ post.price }}</p>
+                    <a href="{{ url_for('view_post', post_id=post.id) }}" class="btn-view-post">View Details</a>
                 </div>
+                {% endfor %}
             </div>
-        </div>
-        
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <i class="fas fa-check-circle fs-2 mb-2"></i>
-                    <h4 class="fw-bold">{{ my_pickups|selectattr('status', 'eq', 'completed')|list|length }}</h4>
-                    <p class="mb-0 text-muted">Completed</p>
-                </div>
+        {% else %}
+            <div class="no-posts-message">
+                <p>No available pickups right now. Check back later!</p>
             </div>
-        </div>
-        
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    <i class="fas fa-clock fs-2 mb-2"></i>
-                    <h4 class="fw-bold">{{ my_pickups|selectattr('status', 'eq', 'accepted')|list|length }}</h4>
-                    <p class="mb-0 text-muted">In Progress</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="row">
-        <!-- Available Pickups -->
-        <div class="col-lg-6 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-map-marker-alt me-2"></i>Available Pickups</h5>
-                </div>
-                <div class="card-body">
-                    {% if available_posts %}
-                        <div class="row g-3">
-                            {% for post in available_posts %}
-                            <div class="col-12">
-                                <div class="card border-info">
-                                    <div class="card-body p-3">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <div>
-                                                <h6 class="fw-bold mb-1">{{ post.trash_type|title }} Pickup</h6>
-                                                <p class="text-muted mb-1">
-                                                    <i class="fas fa-balance-scale me-1"></i>Quantity: {{ post.quantity }}
-                                                </p>
-                                                <p class="text-muted mb-1">
-                                                    <i class="fas fa-map-marker-alt me-1"></i>{{ post.location }}
-                                                </p>
-                                                <p class="text-success fw-bold mb-0">
-                                                    <i class="fas fa-dollar-sign me-1"></i>${{ "%.2f"|format(post.price) }}
-                                                    {% if post.is_negotiable %}
-                                                        <span class="badge bg-info ms-1">Negotiable</span>
-                                                    {% endif %}
-                                                </p>
-                                            </div>
-                                            <small class="text-muted">{{ post.created_at.strftime('%m/%d') }}</small>
-                                        </div>
-                                        
-                                        {% if post.description %}
-                                        <p class="text-muted small mb-3">{{ post.description }}</p>
-                                        {% endif %}
-                                        
-                                        <div class="d-flex gap-2">
-                                            <a href="{{ url_for('view_post', post_id=post.id) }}" class="btn btn-outline-primary btn-sm">
-                                                <i class="fas fa-eye me-1"></i>View Details
-                                            </a>
-                                            <form method="POST" action="{{ url_for('accept_pickup', post_id=post.id) }}" class="d-inline">
-                                                <button type="submit" class="btn btn-success btn-sm">
-                                                    <i class="fas fa-check me-1"></i>Accept Pickup
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <div class="text-center py-4">
-                            <i class="fas fa-search fs-1 text-muted mb-3"></i>
-                            <h6 class="text-muted">No available pickups</h6>
-                            <p class="text-muted mb-0">Check back later for new pickup requests in your area.</p>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        
-        <!-- My Pickups -->
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-truck me-2"></i>My Pickups</h5>
-                </div>
-                <div class="card-body">
-                    {% if my_pickups %}
-                        <div class="row g-3">
-                            {% for pickup in my_pickups %}
-                            <div class="col-12">
-                                <div class="card {% if pickup.status == 'completed' %}border-success{% else %}border-warning{% endif %}">
-                                    <div class="card-body p-3">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <div>
-                                                <h6 class="fw-bold mb-1">{{ pickup.trash_type|title }} Collection</h6>
-                                                <p class="text-muted mb-1">
-                                                    <i class="fas fa-balance-scale me-1"></i>Quantity: {{ pickup.quantity }}
-                                                </p>
-                                                <p class="text-muted mb-1">
-                                                    <i class="fas fa-map-marker-alt me-1"></i>{{ pickup.location }}
-                                                </p>
-                                                <p class="text-success fw-bold mb-0">
-                                                    <i class="fas fa-dollar-sign me-1"></i>${{ "%.2f"|format(pickup.price) }}
-                                                    {% if pickup.is_negotiable %}
-                                                        <span class="badge bg-info ms-1">Negotiable</span>
-                                                    {% endif %}
-                                                </p>
-                                            </div>
-                                            <div class="text-end">
-                                                {% if pickup.status == 'accepted' %}
-                                                    <span class="badge bg-warning mb-1">In Progress</span>
-                                                {% elif pickup.status == 'completed' %}
-                                                    <span class="badge bg-success mb-1">Completed</span>
-                                                {% endif %}
-                                                <br>
-                                                <small class="text-muted">{{ pickup.created_at.strftime('%m/%d') }}</small>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="d-flex gap-2">
-                                            <a href="{{ url_for('view_post', post_id=pickup.id) }}" class="btn btn-outline-primary btn-sm">
-                                                <i class="fas fa-eye me-1"></i>View
-                                            </a>
-                                            {% if pickup.status == 'accepted' %}
-                                                <form method="POST" action="{{ url_for('complete_pickup', post_id=pickup.id) }}" class="d-inline">
-                                                    <button type="submit" class="btn btn-success btn-sm"
-                                                            onclick="return confirm('Mark this pickup as completed?')">
-                                                        <i class="fas fa-check-double me-1"></i>Complete
-                                                    </button>
-                                                </form>
-                                                <form method="POST" action="{{ url_for('cancel_pickup', post_id=pickup.id) }}" class="d-inline">
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm"
-                                                            onclick="return confirm('Cancel this pickup?')">
-                                                        <i class="fas fa-times me-1"></i>Cancel
-                                                    </button>
-                                                </form>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <div class="text-center py-4">
-                            <i class="fas fa-truck fs-1 text-muted mb-3"></i>
-                            <h6 class="text-muted">No pickups yet</h6>
-                            <p class="text-muted mb-0">Accept available pickups to start collecting trash and helping the community.</p>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

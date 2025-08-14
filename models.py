@@ -40,14 +40,21 @@ class TrashPost(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     location = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text)
-    status = db.Column(db.String(20), default='pending', nullable=False)
+    status = db.Column(db.String(20), default='available', nullable=False)
     collector_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     price = db.Column(db.Numeric(10, 2), nullable=False)
     is_negotiable = db.Column(db.Boolean, default=False, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     completed_at = db.Column(db.DateTime)
     
-    def __init__(self, user_id, trash_type, quantity, location, description, price, is_negotiable=False):
+    final_weight_kg = db.Column(db.Float, nullable=True)
+    final_sale_price = db.Column(db.Numeric(10, 2), nullable=True)
+    platform_profit = db.Column(db.Numeric(10, 2), nullable=True)
+    
+    phone_number = db.Column(db.String(20), nullable=True)
+    google_map_link = db.Column(db.String(500), nullable=True)
+    
+    def __init__(self, user_id, trash_type, quantity, location, description, price, is_negotiable=False, phone_number=None, google_map_link=None):
         self.user_id = user_id
         self.trash_type = trash_type
         self.quantity = quantity
@@ -55,14 +62,16 @@ class TrashPost(db.Model):
         self.description = description
         self.price = price
         self.is_negotiable = is_negotiable
+        self.phone_number = phone_number
+        self.google_map_link = google_map_link
     
     @staticmethod
     def get_available():
-        return TrashPost.query.filter_by(status='pending').order_by(TrashPost.created_at.desc()).all()
+        return TrashPost.query.filter_by(status='available').order_by(TrashPost.created_at.desc()).all()
     
     @staticmethod
-    def create(user_id, trash_type, quantity, location, description, price, is_negotiable=False):
-        post = TrashPost(user_id, trash_type, quantity, location, description, price, is_negotiable)
+    def create(user_id, trash_type, quantity, location, description, price, is_negotiable=False, phone_number=None, google_map_link=None):
+        post = TrashPost(user_id, trash_type, quantity, location, description, price, is_negotiable, phone_number, google_map_link)
         db.session.add(post)
         db.session.commit()
         return post

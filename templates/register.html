@@ -1,34 +1,47 @@
 {% extends "base.html" %}
 
-{% block title %}Create Account - Vangari Mama{% endblock %}
+{% block title %}Sign Up - Vangari Mama{% endblock %}
 
 {% block content %}
 <div class="form-container">
-    <h1>Create Your Vangari Mama Account</h1>
-    <form method="POST" action="{{ url_for('register') }}">
+    <div class="form-header">
+        <h1>Create an Account</h1>
+        <p>Join our community to buy and sell scrap materials.</p>
+    </div>
+    <form method="POST" action="{{ url_for('register') }}" novalidate>
         {{ form.hidden_tag() }}
+        
         <div class="form-group">
-            <label for="username">Username</label>
-            {{ form.username(class="form-control", id="username", placeholder="your_username") }}
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control", placeholder="Choose a username") }}
         </div>
+
         <div class="form-group">
-            <label for="email">Email</label>
-            {{ form.email(class="form-control", id="email", placeholder="you@example.com") }}
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control", placeholder="you@example.com") }}
         </div>
+
         <div class="form-group">
-            <label for="password">Password</label>
-            {{ form.password(class="form-control", id="password", placeholder="••••••••") }}
+            {{ form.user_type.label(class="form-label") }}
+            {{ form.user_type(class="form-control") }}
         </div>
+        
         <div class="form-group">
-            <div class="form-group">
-    <label for="user_type">Register as</label>
-    {{ form.user_type(class="form-control", id="user_type") }}
-</div>
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control", placeholder="Create a strong password") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.confirm_password.label(class="form-label") }}
+            {{ form.confirm_password(class="form-control", placeholder="Confirm your password") }}
+        </div>
+
+        <div>
             {{ form.submit(class="form-btn") }}
         </div>
     </form>
     <div class="form-switch-link">
-        Already have an account? <a href="{{ url_for('login') }}">Sign In</a>
+        <p>Already have an account? <a href="{{ url_for('login') }}">Sign In</a></p>
     </div>
 </div>
 {% endblock %}

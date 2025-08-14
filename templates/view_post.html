@@ -1,86 +1,51 @@
 {% extends "base.html" %}
 
-{% block title %}{{ post.trash_type }} - Vangari Mama{% endblock %}
+{% block title %}{{ post.trash_type.title() }}{% endblock %}
 
 {% block content %}
-<style>
-    .post-details-container {
-        background-color: var(--dark-card);
-        border: 1px solid var(--border-color);
-        border-radius: 0.75rem;
-        padding: 2.5rem;
-        max-width: 800px;
-        margin: 0 auto;
-    }
-    .post-header {
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-    .post-header h1 {
-        font-size: 2.5rem;
-        font-weight: 800;
-        margin: 0;
-    }
-    .post-header .price {
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--primary-blue);
-    }
-    .post-meta {
-        display: flex;
-        gap: 2rem;
-        color: var(--text-muted);
-        margin-top: 1rem;
-    }
-    .post-meta span i {
-        margin-right: 0.5rem;
-    }
-    .post-body p {
-        font-size: 1.1rem;
-        line-height: 1.7;
-    }
-    .action-btn {
-        display: inline-block;
-        margin-top: 2rem;
-        padding: 0.8rem 2rem;
-        background-color: #10B981; /* Green for accepting */
-        color: var(--text-light);
-        text-decoration: none;
-        border-radius: 0.5rem;
-        font-weight: 700;
-        transition: background-color 0.2s ease;
-    }
-    .action-btn:hover {
-        background-color: #059669;
-    }
-</style>
-
 <div class="container">
-    <div class="post-details-container">
-        <div class="post-header">
-            <div class="d-flex justify-content-between align-items-center">
-                <h1>{{ post.trash_type }}</h1>
-                <span class="price">${{ "%.2f"|format(post.price) }}</span>
+    <div class="post-details-grid">
+        <div class="post-info-card">
+            <h1 class="post-title">{{ post.trash_type.title() }}</h1>
+            <p class="posted-by">Posted by: {{ post.owner.username }}</p>
+            
+            <div class="info-section">
+                <h3>Details</h3>
+                <p>{{ post.description }}</p>
             </div>
-            <div class="post-meta">
-                <span><i class="fas fa-user"></i>Posted by: {{ post.owner.username }}</span>
-                <span><i class="fas fa-calendar-alt"></i>On: {{ post.created_at.strftime('%B %d, %Y') }}</span>
+
+            <div class="info-section">
+                <h3>Contact & Location</h3>
+                <p><i class="fas fa-phone-alt fa-fw"></i> {{ post.phone_number }}</p>
+                <p><i class="fas fa-map-marker-alt fa-fw"></i> {{ post.location }}</p>
+                {% if post.google_map_link %}
+                <p><i class="fas fa-map fa-fw"></i> <a href="{{ post.google_map_link }}" target="_blank">View on Google Maps</a></p>
+                {% endif %}
+            </div>
+
+            <div class="info-section">
+                <h3>Pricing</h3>
+                <p>Initial Quantity: {{ post.quantity }} (Kg or Pieces)</p>
+                <p class="asking-price">Asking Price: ৳{{ post.price }}</p>
+                <p>Negotiable: {{ 'Yes' if post.is_negotiable else 'No' }}</p>
             </div>
         </div>
-        <div class="post-body">
-            <h4>Details:</h4>
-            <ul>
-                <li><strong>Quantity:</strong> {{ post.quantity }} units</li>
-                <li><strong>Location:</strong> {{ post.location }}</li>
-                <li><strong>Status:</strong> <span class="badge badge-warning">{{ post.status }}</span></li>
-            </ul>
-            <h4>Description:</h4>
-            <p>{{ post.description }}</p>
 
-            {% if current_user.is_authenticated and current_user.user_type == 'collector' and post.status == 'pending' %}
-                <a href="#" class="action-btn">Accept Collection Job</a>
-            {% endif %}
+        <div class="transaction-card">
+            <h3>Complete Purchase</h3>
+            <p>After agreeing with the seller, enter the final weight and price to complete the transaction.</p>
+            
+            <form method="POST" action="{{ url_for('complete_transaction', post_id=post.id) }}" class="transaction-form">
+                <div class="form-group">
+                    <label for="final_weight" class="form-label">Final Weight (in Kg)</label>
+                    <input type="number" step="0.01" name="final_weight" class="form-control" placeholder="e.g., 10.5" required>
+                </div>
+                <div class="form-group">
+                    <label for="final_price" class="form-label">Final Price (Negotiated)</label>
+                    <input type="number" step="0.01" name="final_price" class="form-control" placeholder="e.g., 45.50" required>
+                </div>
+                <button type="submit" class="form-btn">Accept & Complete Purchase</button>
+            </form>
         </div>
     </div>
 </div>

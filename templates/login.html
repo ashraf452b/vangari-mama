@@ -5,22 +5,25 @@
 {% block content %}
 <div class="form-container">
     <h1>Sign In to Your Account</h1>
-    <form method="POST" action="{{ url_for('login') }}">
+    <form method="POST" action="{{ url_for('login') }}" novalidate>
         {{ form.hidden_tag() }}
+        
         <div class="form-group">
-            <label for="email">Email</label>
-            {{ form.email(class="form-control", id="email", placeholder="you@example.com") }}
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control", placeholder="you@example.com") }}
         </div>
+        
         <div class="form-group">
-            <label for="password">Password</label>
-            {{ form.password(class="form-control", id="password", placeholder="••••••••") }}
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control", placeholder="••••••••") }}
         </div>
-        <div class="form-group">
+
+        <div>
             {{ form.submit(class="form-btn") }}
         </div>
     </form>
     <div class="form-switch-link">
-        Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a>
+        <p>Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a></p>
     </div>
 </div>
 {% endblock %}
