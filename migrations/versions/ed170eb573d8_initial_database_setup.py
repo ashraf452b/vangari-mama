@@ -1,8 +1,8 @@
-"""Initial migration
+"""Initial database setup
 
-Revision ID: 7155405c35a3
+Revision ID: ed170eb573d8
 Revises: 
-Create Date: 2025-08-15 04:57:38.568427
+Create Date: 2025-08-15 05:59:29.893572
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7155405c35a3'
+revision = 'ed170eb573d8'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -40,12 +40,13 @@ def upgrade():
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('status', sa.String(length=20), nullable=False),
     sa.Column('collector_id', sa.Integer(), nullable=True),
-    sa.Column('price', sa.Numeric(precision=10, scale=2), nullable=False),
+    sa.Column('price_per_kg', sa.Numeric(precision=10, scale=2), nullable=False),
     sa.Column('is_negotiable', sa.Boolean(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('completed_at', sa.DateTime(), nullable=True),
     sa.Column('final_weight_kg', sa.Float(), nullable=True),
-    sa.Column('final_sale_price', sa.Numeric(precision=10, scale=2), nullable=True),
+    sa.Column('final_price_per_kg', sa.Numeric(precision=10, scale=2), nullable=True),
+    sa.Column('total_transaction_value', sa.Numeric(precision=10, scale=2), nullable=True),
     sa.Column('platform_profit', sa.Numeric(precision=10, scale=2), nullable=True),
     sa.Column('phone_number', sa.String(length=20), nullable=True),
     sa.Column('google_map_link', sa.String(length=500), nullable=True),

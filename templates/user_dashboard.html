@@ -1,7 +1,5 @@
 {% extends "base.html" %}
-
-{% block title %}My Dashboard - Vangari Mama{% endblock %}
-
+{% block title %}My Dashboard{% endblock %}
 {% block content %}
 <div class="container">
     <div class="dashboard-header">
@@ -26,21 +24,53 @@
         </div>
     </div>
 
+    <div class="offers-section">
+        <h3 class="section-title"><i class="fas fa-handshake"></i> Pending Offers on Your Posts</h3>
+        {% set offers = user_posts|selectattr('status', 'equalto', 'negotiating')|list %}
+        {% if offers %}
+            {% for post in offers %}
+            <div class="offer-card">
+                <div class="offer-icon">
+                    <i class="fas fa-arrow-down"></i>
+                </div>
+                <div class="offer-details">
+                    <p><strong>{{ post.collector.username }}</strong> made an offer on your post: <strong>"{{ post.trash_type.title() }}"</strong></p>
+                    <!-- নতুন হিসাব অনুযায়ী মোট অফার করা মূল্য দেখানো হচ্ছে -->
+                    <span class="offer-price">
+                        Offered Total: ৳{{ "%.2f"|format(post.total_transaction_value) }}
+                        <small>({{ post.final_weight_kg }}Kg at ৳{{ post.final_price_per_kg }}/Kg)</small>
+                    </span>
+                </div>
+                <div class="offer-actions">
+                    <form action="{{ url_for('accept_offer', post_id=post.id) }}" method="POST">
+                        <button type="submit" class="btn-accept"><i class="fas fa-check"></i> Accept</button>
+                    </form>
+                    <form action="{{ url_for('reject_offer', post_id=post.id) }}" method="POST">
+                        <button type="submit" class="btn-reject"><i class="fas fa-times"></i> Reject</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">You have no pending offers at the moment.</p>
+        {% endif %}
+    </div>
+
     <div class="dashboard-grid">
         <div class="profile-card">
-            <h3 class="card-title">My Profile</h3>
+            <div class="card-header">
+                <h3 class="card-title">My Profile</h3>
+            </div>
             <div class="profile-info">
                 <p><i class="fas fa-user fa-fw"></i> {{ current_user.username }}</p>
                 <p><i class="fas fa-envelope fa-fw"></i> {{ current_user.email }}</p>
-                <p><i class="fas fa-tag fa-fw"></i> {{ current_user.user_type.title() }}</p>
+                <p><i class="fas fa-tag fa-fw"></i> {{ current_user.user_type | title }}</p>
             </div>
         </div>
         <div class="posts-list">
             <div class="posts-list-header">
                 <h3 class="card-title">My Posts</h3>
-                <a href="{{ url_for('create_post') }}" class="create-post-btn">
-                    <i class="fas fa-plus"></i> Create Post
-                </a>
+                <a href="{{ url_for('create_post') }}" class="create-post-btn"><i class="fas fa-plus"></i> Create Post</a>
             </div>
             
             {% if user_posts %}
@@ -48,19 +78,27 @@
                 <div class="post-item">
                     <span class="post-details">{{ post.trash_type.title() }}</span>
                     
-                    {% if post.status.lower() == 'pending' %}
-                        <span class="status-badge status-pending">Pending</span>
+                    {% if post.status.lower() == 'available' %}
+                        <span class="status-badge status-available">Available</span>
                     {% elif post.status.lower() == 'completed' %}
                         <span class="status-badge status-completed">Completed</span>
-                    {% else %}
-                        <span class="status-badge">{{ post.status.title() }}</span>
+                    {% elif post.status.lower() == 'negotiating' %}
+                        <span class="status-badge status-pending">Offer Pending</span>
+                    {% endif %}
+                    
+                    {% if post.status == 'available' %}
+                    <!-- নতুন স্মার্ট Edit/Delete বাটন -->
+                    <div class="post-actions">
+                        <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn-edit"><i class="fas fa-pen"></i> Edit</a>
+                        <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                            <button type="submit" class="btn-delete"><i class="fas fa-trash"></i> Delete</button>
+                        </form>
+                    </div>
                     {% endif %}
                 </div>
                 {% endfor %}
             {% else %}
-                <div class="no-posts-message">
-                    <p>You have not created any posts yet.</p>
-                </div>
+                <div class="no-posts-message"><p>You have not created any posts yet.</p></div>
             {% endif %}
         </div>
     </div>

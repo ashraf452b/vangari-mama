@@ -28,9 +28,9 @@
         </div>
 
         <div class="form-group">
-            {{ form.price.label(class="form-label") }}
-            {{ form.price(class="form-control", placeholder="e.g., 50.00") }}
-            {% for error in form.price.errors %}
+            {{ form.price_per_kg.label(class="form-label") }}
+            {{ form.price_per_kg(class="form-control", placeholder="e.g., 50.00") }}
+            {% for error in form.price_per_kg.errors %}
                 <span class="text-danger">{{ error }}</span>
             {% endfor %}
         </div>
@@ -53,7 +53,7 @@
 
         <div class="form-group">
             {{ form.google_map_link.label(class="form-label") }}
-            {{ form.google_map_link(class="form-control", placeholder="https://maps.app.goo.gl/...") }}
+            {{ form.google_map_link(class="form-control", placeholder="http://googleusercontent.com/maps.google.com/...") }}
             {% for error in form.google_map_link.errors %}
                 <span class="text-danger">{{ error }}</span>
             {% endfor %}
@@ -67,6 +67,11 @@
             {% endfor %}
         </div>
 
+        <div class="form-group">
+            {{ form.is_negotiable() }}
+            {{ form.is_negotiable.label(class="form-label") }}
+        </div>
+
         <div>
             {{ form.submit(class="form-btn") }}
         </div>
@@ -78,6 +83,7 @@
         color: #dc3545;
         font-size: 0.875em;
         margin-top: 0.25rem;
+        display: block;
     }
 </style>
 {% endblock %}

@@ -11,10 +11,14 @@ from datetime import datetime # datetime ব্যবহারের জন্�
 def home():
     return render_template('home.html')
 
+@app.route('/how-it-works')
+def how_it_works():
+    return render_template('how_it_works.html', title='How It Works')
 
 @app.route('/posts')
 def all_posts():
-    posts = TrashPost.query.order_by(TrashPost.created_at.desc()).all()
+    # --- পরিবর্তন: এখন 'available' স্ট্যাটাসের পোস্টগুলো দেখানো হবে ---
+    posts = TrashPost.query.filter_by(status='available').order_by(TrashPost.created_at.desc()).all()
     return render_template('index.html', posts=posts, title='Available Posts')
 
 
@@ -76,23 +80,62 @@ def create_post():
             user_id=current_user.id,
             trash_type=form.trash_type.data,
             quantity=form.quantity.data,
-            price=form.price.data,
+            price_per_kg=form.price_per_kg.data, # 'price' এখন 'price_per_kg'
             location=form.location.data,
             description=form.description.data,
-            # --- নতুন ফিল্ডগুলো যোগ করা হয়েছে ---
             phone_number=form.phone_number.data,
-            google_map_link=form.google_map_link.data
+            google_map_link=form.google_map_link.data,
+            is_negotiable=form.is_negotiable.data
         )
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success')
-        return redirect(url_for('all_posts'))
+        return redirect(url_for('user_dashboard'))
     return render_template('create_post.html', title='New Post', form=form)
 
 @app.route('/post/<int:post_id>')
 def view_post(post_id):
     post = TrashPost.query.get_or_404(post_id)
     return render_template('view_post.html', title=post.trash_type, post=post)
+
+# --- পোস্ট এডিট করার রুট ---
+@app.route('/post/<int:post_id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_post(post_id):
+    post = TrashPost.query.get_or_404(post_id)
+    if post.owner != current_user or post.status != 'available':
+        flash('You cannot edit this post at the moment.', 'danger')
+        return redirect(url_for('user_dashboard'))
+    
+    form = PostForm(obj=post)
+    if form.validate_on_submit():
+        post.trash_type = form.trash_type.data
+        post.quantity = form.quantity.data
+        post.price_per_kg = form.price_per_kg.data # 'price' এখন 'price_per_kg'
+        post.location = form.location.data
+        post.description = form.description.data
+        post.phone_number = form.phone_number.data
+        post.google_map_link = form.google_map_link.data
+        post.is_negotiable = form.is_negotiable.data
+        db.session.commit()
+        flash('Your post has been updated!', 'success')
+        return redirect(url_for('user_dashboard'))
+        
+    return render_template('edit_post.html', title='Edit Post', form=form, post_id=post.id)
+
+# --- পোস্ট ডিলিট করার রুট ---
+@app.route('/post/<int:post_id>/delete', methods=['POST'])
+@login_required
+def delete_post(post_id):
+    post = TrashPost.query.get_or_404(post_id)
+    if post.owner != current_user or post.status != 'available':
+        flash('You cannot delete this post at the moment.', 'danger')
+        return redirect(url_for('user_dashboard'))
+    
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted.', 'success')
+    return redirect(url_for('user_dashboard'))
 
 @app.route('/dashboard')
 @login_required
@@ -117,52 +160,92 @@ def collector_dashboard():
     if current_user.user_type != 'collector':
         return redirect(url_for('user_dashboard'))
     
-    # --- স্ট্যাটাস 'pending' থেকে 'available' করা হয়েছে ---
     available_posts = TrashPost.query.filter_by(status='available').all()
-    return render_template('collector_dashboard.html', title='Collector Dashboard', posts=available_posts)
+    # --- নতুন: কালেক্টরের কেনা পোস্টগুলো যোগ করা হয়েছে ---
+    recent_purchases = TrashPost.query.filter_by(collector_id=current_user.id, status='completed').order_by(TrashPost.completed_at.desc()).limit(10).all()
+    
+    return render_template('collector_dashboard.html', 
+                           title='Collector Dashboard', 
+                           available_posts=available_posts, 
+                           recent_purchases=recent_purchases)
 
-@app.route('/post/<int:post_id>/complete', methods=['POST'])
+# --- অফার করার রুট ---
+@app.route('/post/<int:post_id>/offer', methods=['POST'])
 @login_required
-def complete_transaction(post_id):
+def make_offer(post_id):
     if current_user.user_type != 'collector':
-        flash('You are not authorized to perform this action.', 'danger')
+        flash('Only collectors can make offers.', 'danger')
         return redirect(url_for('home'))
 
     post = TrashPost.query.get_or_404(post_id)
     
     if post.user_id == current_user.id:
-        flash("You cannot complete your own post.", 'warning')
+        flash("You cannot make an offer on your own post.", 'warning')
         return redirect(url_for('collector_dashboard'))
-
+        
     try:
         final_weight = float(request.form.get('final_weight'))
-        final_price = Decimal(request.form.get('final_price'))
+        final_price_per_kg = Decimal(request.form.get('final_price_per_kg')) # এখন প্রতি কেজির দাম নেওয়া হচ্ছে
     except (TypeError, ValueError):
         flash('Invalid input for weight or price.', 'danger')
         return redirect(url_for('view_post', post_id=post.id))
 
-    if final_weight > 0 and final_price > 0:
-        profit = final_price * Decimal('0.02')
-        seller_earning = final_price - profit
-
-        post.status = 'completed'
+    if final_weight > 0 and final_price_per_kg > 0:
+        post.status = 'negotiating'
         post.collector_id = current_user.id
         post.final_weight_kg = final_weight
-        post.final_sale_price = final_price
-        post.platform_profit = profit
-        post.completed_at = datetime.utcnow()
-        
-        seller = User.query.get(post.user_id)
-        if seller.total_earnings is None:
-            seller.total_earnings = Decimal('0.0')
-        seller.total_earnings += seller_earning
-        
+        post.final_price_per_kg = final_price_per_kg
+        post.total_transaction_value = Decimal(final_weight) * final_price_per_kg # মোট মূল্য হিসাব করা হচ্ছে
         db.session.commit()
-        flash('Transaction has been successfully completed!', 'success')
+        flash('Your offer has been sent to the seller!', 'success')
         return redirect(url_for('collector_dashboard'))
     else:
         flash('Weight and Price must be greater than zero.', 'danger')
         return redirect(url_for('view_post', post_id=post.id))
+
+# --- অফার গ্রহণ করার রুট ---
+@app.route('/offer/<int:post_id>/accept', methods=['POST'])
+@login_required
+def accept_offer(post_id):
+    post = TrashPost.query.get_or_404(post_id)
+    if post.owner != current_user:
+        flash('You are not authorized to perform this action.', 'danger')
+        return redirect(url_for('user_dashboard'))
+
+    # --- নতুন হিসাব: মোট মূল্যের উপর ২% লাভ ---
+    profit = post.total_transaction_value * Decimal('0.02')
+    seller_earning = post.total_transaction_value - profit
+
+    post.status = 'completed'
+    post.platform_profit = profit
+    post.completed_at = datetime.utcnow()
+    
+    seller = post.owner
+    if seller.total_earnings is None:
+        seller.total_earnings = Decimal('0.0')
+    seller.total_earnings += seller_earning
+    
+    db.session.commit()
+    flash('Offer accepted and transaction is complete!', 'success')
+    return redirect(url_for('user_dashboard'))
+
+# --- অফার বাতিল করার রুট ---
+@app.route('/offer/<int:post_id>/reject', methods=['POST'])
+@login_required
+def reject_offer(post_id):
+    post = TrashPost.query.get_or_404(post_id)
+    if post.owner != current_user:
+        flash('You are not authorized to perform this action.', 'danger')
+        return redirect(url_for('user_dashboard'))
+
+    post.status = 'available'
+    post.collector_id = None
+    post.final_weight_kg = None
+    post.final_price_per_kg = None
+    post.total_transaction_value = None
+    db.session.commit()
+    flash('Offer has been rejected and your post is available again.', 'info')
+    return redirect(url_for('user_dashboard'))
 
 # --- অ্যাডমিন ড্যাশবোর্ড রুট ---
 @app.route('/admin/dashboard')
@@ -174,7 +257,8 @@ def admin_dashboard():
 
     total_users = User.query.count()
     total_posts = TrashPost.query.count()
-    total_sales = db.session.query(db.func.sum(TrashPost.final_sale_price)).filter(TrashPost.status == 'completed').scalar() or 0.0
+    # --- নতুন হিসাব: মোট বিক্রির পরিমাণ ---
+    total_sales = db.session.query(db.func.sum(TrashPost.total_transaction_value)).filter(TrashPost.status == 'completed').scalar() or 0.0
     total_profit = db.session.query(db.func.sum(TrashPost.platform_profit)).filter(TrashPost.status == 'completed').scalar() or 0.0
     
     recent_users = User.query.order_by(User.created_at.desc()).limit(5).all()
@@ -189,7 +273,7 @@ def admin_dashboard():
                            recent_users=recent_users,
                            recent_transactions=recent_transactions)
 
-# --- নতুন অ্যাডমিন ফিচার: ইউজার ম্যানেজমেন্ট ---
+# --- অ্যাডমিন ফিচার: ইউজার ম্যানেজমেন্ট ---
 @app.route('/admin/users')
 @login_required
 def manage_users():
@@ -212,7 +296,6 @@ def delete_user(user_id):
         flash('Admin users cannot be deleted.', 'warning')
         return redirect(url_for('manage_users'))
 
-    # ব্যবহারকারীকে ডিলিট করার আগে তার পোস্টগুলোও ডিলিট করা ভালো
     TrashPost.query.filter_by(user_id=user_id).delete()
 
     db.session.delete(user_to_delete)

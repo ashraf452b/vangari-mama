@@ -3,83 +3,6 @@
 {% block title %}Available Posts - Vangari Mama{% endblock %}
 
 {% block content %}
-<style>
-    .page-header {
-        text-align: center;
-        margin-bottom: 3rem;
-    }
-    .page-header h1 {
-        font-size: 2.5rem;
-        font-weight: 800;
-    }
-    .page-header p {
-        color: var(--text-muted);
-        font-size: 1.1rem;
-    }
-    .post-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 1.5rem;
-    }
-    .post-card {
-        background-color: var(--dark-card);
-        border: 1px solid var(--border-color);
-        border-radius: 0.75rem;
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .post-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    }
-    .post-card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-    .post-card-header h2 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin: 0;
-    }
-    .post-card-price {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: var(--primary-blue);
-    }
-    .post-card-body p {
-        color: var(--text-muted);
-        margin-bottom: 0.5rem;
-    }
-    .post-card-body i {
-        margin-right: 0.5rem;
-        color: var(--text-muted);
-    }
-    .post-card-footer {
-        margin-top: auto;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border-color);
-    }
-    .view-details-btn {
-        display: block;
-        width: 100%;
-        text-align: center;
-        padding: 0.7rem;
-        background-color: var(--primary-blue);
-        color: var(--text-light);
-        text-decoration: none;
-        border-radius: 0.5rem;
-        font-weight: 700;
-        transition: background-color 0.2s ease;
-    }
-    .view-details-btn:hover {
-        background-color: var(--primary-hover);
-    }
-</style>
-
 <div class="container">
     <div class="page-header">
         <h1>Available Scrap Posts</h1>
@@ -87,24 +10,30 @@
     </div>
 
     <div class="post-grid">
-        {% for post in posts %}
-        <div class="post-card">
-            <div class="post-card-header">
-                <h2>{{ post.trash_type }}</h2>
-                <span class="post-card-price">${{ "%.2f"|format(post.price) }}</span>
+        {% if posts %}
+            {% for post in posts %}
+            <div class="post-card">
+                <div class="post-card-header">
+                    <h2>{{ post.trash_type.title() }}</h2>
+                    <span class="post-card-price">৳{{ "%.2f"|format(post.price_per_kg) }}/Kg</span>
+                </div>
+                <div class="post-card-body">
+                    <p><i class="fas fa-user"></i> <strong>Posted by:</strong> {{ post.owner.username }}</p>
+                    <p><i class="fas fa-balance-scale"></i> <strong>Approx. Quantity:</strong> {{ post.quantity }} units</p>
+                    <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> {{ post.location }}</p>
+                </div>
+                <div class="post-card-footer">
+                    <a href="{{ url_for('view_post', post_id=post.id) }}" class="view-details-btn">View Details & Make Offer</a>
+                </div>
             </div>
-            <div class="post-card-body">
-                <p><i class="fas fa-cube"></i> <strong>Quantity:</strong> {{ post.quantity }} units</p>
-                <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> {{ post.location }}</p>
-                <p>{{ post.description[:80] }}...</p> {# Show a short description #}
-            </div>
-            <div class="post-card-footer">
-                <a href="{{ url_for('view_post', post_id=post.id) }}" class="view-details-btn">View Details</a>
-            </div>
-        </div>
+            {% endfor %}
         {% else %}
-        <p>No available posts at the moment. Please check back later.</p>
-        {% endfor %}
+            <div class="empty-state-full-width">
+                <i class="fas fa-box-open"></i>
+                <h3>No Available Posts Right Now</h3>
+                <p>It looks like there are no scrap posts at the moment. Please check back later!</p>
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

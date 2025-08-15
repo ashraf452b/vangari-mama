@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}How It Works{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="dashboard-header">
+        <h1>How Vangari Mama Works</h1>
+        <p>Your one-stop platform to sell scrap and find treasures.</p>
+    </div>
+
+    <div class="info-card">
+        <h3>For Sellers (Users who want to sell scrap)</h3>
+        <ol>
+            <li><strong>Create an Account:</strong> Register yourself as a "User".</li>
+            <li><strong>Post Your Scrap:</strong> Click on "Create Post" from your dashboard. Fill in the details like trash type, quantity, location, asking price, and your contact number.</li>
+            <li><strong>Receive Offers:</strong> Collectors will see your post and make offers based on your asking price.</li>
+            <li><strong>Accept/Reject Offers:</strong> You will see all offers on your dashboard. You can choose to accept the best offer.</li>
+            <li><strong>Complete the Deal:</strong> Once you accept an offer, the collector will contact you to arrange pickup and payment.</li>
+        </ol>
+    </div>
+
+    <div class="info-card">
+        <h3>For Collectors (Users who want to buy scrap)</h3>
+        <ol>
+            <li><strong>Create an Account:</strong> Register yourself as a "Collector".</li>
+            <li><strong>Browse Available Posts:</strong> From your dashboard or the "Available Posts" page, you can see all scrap items available for pickup.</li>
+            <li><strong>Make an Offer:</strong> View the details of a post you are interested in. You can then make a negotiation by proposing a final weight and price.</li>
+            <li><strong>Wait for Acceptance:</strong> The seller will be notified of your offer. If they accept, the post will be marked as yours.</li>
+            <li><strong>Collect and Pay:</strong> Contact the seller using the provided phone number to schedule the pickup and complete the payment.</li>
+        </ol>
+    </div>
+</div>
+
+<style>
+.info-card {
+    background-color: var(--dark-card);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    margin-bottom: 2rem;
+}
+.info-card h3 {
+    margin-top: 0;
+    color: var(--primary-blue);
+}
+.info-card ol {
+    padding-left: 20px;
+}
+.info-card li {
+    margin-bottom: 0.75rem;
+    color: var(--text-muted);
+}
+</style>
+{% endblock %}

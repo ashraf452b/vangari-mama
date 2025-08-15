@@ -42,25 +42,35 @@ class TrashPost(db.Model):
     description = db.Column(db.Text)
     status = db.Column(db.String(20), default='available', nullable=False)
     collector_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    price = db.Column(db.Numeric(10, 2), nullable=False)
+    
+    # --- পরিবর্তন ১: 'price' এখন 'price_per_kg' ---
+    price_per_kg = db.Column(db.Numeric(10, 2), nullable=False)
+    
     is_negotiable = db.Column(db.Boolean, default=False, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     completed_at = db.Column(db.DateTime)
     
     final_weight_kg = db.Column(db.Float, nullable=True)
-    final_sale_price = db.Column(db.Numeric(10, 2), nullable=True)
+    
+    # --- পরিবর্তন ২: 'final_sale_price' এখন 'final_price_per_kg' ---
+    final_price_per_kg = db.Column(db.Numeric(10, 2), nullable=True)
+    
+    # --- নতুন কলাম ৩: মোট লেনদেনের মূল্য সংরক্ষণের জন্য ---
+    total_transaction_value = db.Column(db.Numeric(10, 2), nullable=True)
+    
     platform_profit = db.Column(db.Numeric(10, 2), nullable=True)
     
     phone_number = db.Column(db.String(20), nullable=True)
     google_map_link = db.Column(db.String(500), nullable=True)
     
-    def __init__(self, user_id, trash_type, quantity, location, description, price, is_negotiable=False, phone_number=None, google_map_link=None):
+    # --- পরিবর্তন ৪: __init__ মেথড আপডেট করা হয়েছে ---
+    def __init__(self, user_id, trash_type, quantity, location, description, price_per_kg, is_negotiable, phone_number, google_map_link):
         self.user_id = user_id
         self.trash_type = trash_type
         self.quantity = quantity
         self.location = location
         self.description = description
-        self.price = price
+        self.price_per_kg = price_per_kg
         self.is_negotiable = is_negotiable
         self.phone_number = phone_number
         self.google_map_link = google_map_link
@@ -69,9 +79,10 @@ class TrashPost(db.Model):
     def get_available():
         return TrashPost.query.filter_by(status='available').order_by(TrashPost.created_at.desc()).all()
     
+    # --- পরিবর্তন ৫: create মেথড আপডেট করা হয়েছে ---
     @staticmethod
-    def create(user_id, trash_type, quantity, location, description, price, is_negotiable=False, phone_number=None, google_map_link=None):
-        post = TrashPost(user_id, trash_type, quantity, location, description, price, is_negotiable, phone_number, google_map_link)
+    def create(user_id, trash_type, quantity, location, description, price_per_kg, is_negotiable, phone_number, google_map_link):
+        post = TrashPost(user_id=user_id, trash_type=trash_type, quantity=quantity, location=location, description=description, price_per_kg=price_per_kg, is_negotiable=is_negotiable, phone_number=phone_number, google_map_link=google_map_link)
         db.session.add(post)
         db.session.commit()
         return post

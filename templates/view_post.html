@@ -26,27 +26,49 @@
             <div class="info-section">
                 <h3>Pricing</h3>
                 <p>Initial Quantity: {{ post.quantity }} (Kg or Pieces)</p>
-                <p class="asking-price">Asking Price: ৳{{ post.price }}</p>
+                <p class="asking-price">Asking Price: ৳{{ "%.2f"|format(post.price_per_kg) }}/Kg</p>
                 <p>Negotiable: {{ 'Yes' if post.is_negotiable else 'No' }}</p>
             </div>
         </div>
 
+        {% if current_user.is_authenticated and current_user.user_type == 'collector' and current_user != post.owner %}
         <div class="transaction-card">
-            <h3>Complete Purchase</h3>
-            <p>After agreeing with the seller, enter the final weight and price to complete the transaction.</p>
             
-            <form method="POST" action="{{ url_for('complete_transaction', post_id=post.id) }}" class="transaction-form">
+            {% if post.is_negotiable %}
+            <h3>Make an Offer</h3>
+            <p>Enter your proposed weight and price. The seller will be notified to accept or reject your offer.</p>
+            <form method="POST" action="{{ url_for('make_offer', post_id=post.id) }}" class="transaction-form">
+                <div class="form-group">
+                    <label for="final_weight" class="form-label">Proposed Weight (in Kg)</label>
+                    <input type="number" step="0.01" name="final_weight" class="form-control" placeholder="e.g., 10.5" required>
+                </div>
+                <div class="form-group">
+                    <label for="final_price_per_kg" class="form-label">Your Offer Price (Per Kg)</label>
+                    <input type="number" step="0.01" name="final_price_per_kg" class="form-control" placeholder="e.g., 45.50" required>
+                </div>
+                <button type="submit" class="form-btn">Submit Offer</button>
+            </form>
+            
+            {% else %}
+            <h3>Accept Deal</h3>
+            <p>This item is available at a fixed price. Enter the final weight to proceed.</p>
+            <div class="fixed-price-info">
+                <span>Fixed Price:</span>
+                <strong>৳{{ "%.2f"|format(post.price_per_kg) }}/Kg</strong>
+            </div>
+            <form method="POST" action="{{ url_for('make_offer', post_id=post.id) }}" class="transaction-form">
+                <input type="hidden" name="final_price_per_kg" value="{{ post.price_per_kg }}">
+                
                 <div class="form-group">
                     <label for="final_weight" class="form-label">Final Weight (in Kg)</label>
                     <input type="number" step="0.01" name="final_weight" class="form-control" placeholder="e.g., 10.5" required>
                 </div>
-                <div class="form-group">
-                    <label for="final_price" class="form-label">Final Price (Negotiated)</label>
-                    <input type="number" step="0.01" name="final_price" class="form-control" placeholder="e.g., 45.50" required>
-                </div>
-                <button type="submit" class="form-btn">Accept & Complete Purchase</button>
+                <button type="submit" class="form-btn">Accept & Proceed</button>
             </form>
+            {% endif %}
+
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

@@ -71,7 +71,7 @@
                     <thead>
                         <tr>
                             <th>Post Type</th>
-                            <th>Price</th>
+                            <th>Total Value</th>
                             <th>Profit</th>
                         </tr>
                     </thead>
@@ -79,7 +79,7 @@
                         {% for transaction in recent_transactions %}
                         <tr>
                             <td>{{ transaction.trash_type.title() }}</td>
-                            <td>৳ {{ "%.2f"|format(transaction.final_sale_price) }}</td>
+                            <td>৳ {{ "%.2f"|format(transaction.total_transaction_value) }}</td>
                             <td>৳ {{ "%.2f"|format(transaction.platform_profit) }}</td>
                         </tr>
                         {% endfor %}
@@ -88,5 +88,11 @@
             </div>
         </div>
     </div>
+    
+    <div class="admin-card" style="margin-top: 2rem;">
+        <h3 class="card-title">Quick Actions</h3>
+        <a href="{{ url_for('manage_users') }}" class="btn-getstarted">Manage All Users</a>
+    </div>
+
 </div>
 {% endblock %}

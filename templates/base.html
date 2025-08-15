@@ -433,6 +433,198 @@
 .transaction-form {
     margin-top: 1.5rem;
 }
+
+/* base.html এর CSS এর শেষে যোগ করুন */
+.offers-section .section-title i {
+    margin-right: 0.75rem;
+    color: var(--primary-blue);
+}
+.offer-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--dark-bg);
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--primary-blue);
+}
+.offer-icon i {
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+}
+.offer-details p {
+    margin: 0;
+    line-height: 1.4;
+}
+.offer-price {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+.offer-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 0.5rem;
+}
+.btn-accept, .btn-reject {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+}
+.btn-accept { background-color: #10b981; }
+.btn-reject { background-color: #6b7280; }
+
+.empty-state {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: var(--text-muted);
+        background-color: var(--dark-bg);
+        border-radius: 0.5rem;
+        border: 1px dashed var(--border-color);
+    }
+    .empty-state i {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Smart Edit/Delete Buttons */
+    .btn-edit, .btn-delete {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.5rem;
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+    .btn-edit { background-color: var(--primary-blue); }
+    .btn-delete { background-color: #dc3545; }
+
+    /* --- Available Posts Page Styles (এই অংশটুকু যোগ করুন) --- */
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.page-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+.page-header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+.post-card {
+    background-color: var(--dark-card);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+.post-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.post-card-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+}
+.post-card-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+.post-card-body p {
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+.post-card-body i {
+    margin-right: 0.75rem;
+    color: var(--text-muted);
+    width: 15px;
+}
+.post-card-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+.view-details-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.7rem;
+    background-color: var(--primary-blue);
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    transition: background-color 0.2s ease;
+}
+.view-details-btn:hover {
+    background-color: var(--primary-hover);
+}
+.empty-state-full-width {
+    grid-column: 1 / -1; /* This makes the div span the full width of the grid */
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-muted);
+    background-color: var(--dark-card);
+    border-radius: 0.75rem;
+    border: 1px dashed var(--border-color);
+}
+.empty-state-full-width i {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-blue);
+}
+.empty-state-full-width h3 {
+    font-size: 1.5rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+/* base.html এর CSS এর শেষে যোগ করুন */
+.fixed-price-info {
+    background-color: var(--dark-bg);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.fixed-price-info span {
+    color: var(--text-muted);
+}
+.fixed-price-info strong {
+    font-size: 1.2rem;
+    color: var(--primary-blue);
+}
     </style>
 </head>
 <body>
@@ -440,8 +632,8 @@
         <a href="{{ url_for('home') }}" class="logo"><i class="fas fa-recycle"></i>Vangari Mama</a>
         <nav class="nav-links">
             <a href="{{ url_for('home') }}">Home</a>
-            <a href="#">Available Posts</a>
-            <a href="#">How It Works</a>
+            <a href="{{ url_for('all_posts') }}">Available Posts</a>
+            <a href="{{ url_for('how_it_works') }}">How It Works</a>
         </nav>
         <div class="nav-buttons">
             {% if current_user.is_authenticated %}
