@@ -8,6 +8,18 @@
     </div>
 
     <div class="stats-grid">
+        
+        <div class="col-md-4">
+    <div class="card p-3">
+        <div class="d-flex align-items-center">
+            <div class="fs-1 text-primary me-3"><i class="fas fa-star"></i></div>
+            <div>
+                <h6 class="text-muted">My Average Rating</h6>
+                <h4 class="fw-bold">{{ current_user.average_rating() }} / 5.0</h4>
+            </div>
+        </div>
+    </div>
+</div>
         <div class="stat-card">
             <i class="fas fa-weight-hanging"></i>
             <div class="stat-info">

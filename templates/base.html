@@ -625,6 +625,125 @@
     font-size: 1.2rem;
     color: var(--primary-blue);
 }
+/* --- নতুন ফিচারগুলোর জন্য CSS (এই অংশটুকু যোগ করুন) --- */
+
+/* Homepage Testimonials */
+.testimonial-card {
+    background-color: var(--dark-card);
+    border: 1px solid var(--border-color);
+    border-top: 4px solid var(--primary-blue);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    height: 100%;
+}
+.testimonial-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+.testimonial-stars {
+    color: #f59e0b; /* A nice yellow/orange color for stars */
+}
+
+/* Search Bar on Available Posts Page */
+.search-form {
+    display: flex;
+    max-width: 600px;
+    margin: 1.5rem auto 0 auto;
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    overflow: hidden;
+}
+.search-form input {
+    flex-grow: 1;
+    border: none;
+    background-color: transparent;
+    padding: 0.75rem 1.5rem;
+    color: var(--text-light);
+    font-size: 1rem;
+}
+.search-form input:focus {
+    outline: none;
+}
+.search-form button {
+    background-color: var(--primary-blue);
+    color: var(--text-light);
+    border: none;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+/* Image Display Styles */
+.post-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0.75rem 0.75rem 0 0;
+    margin: -1.5rem -1.5rem 1.5rem -1.5rem; /* Pull image to the card edges */
+}
+.post-main-image {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Review System Styles */
+.reviews-section {
+    background-color: var(--dark-card);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    margin-top: 2rem;
+    border: 1px solid var(--border-color);
+}
+.review-item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.review-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+.review-header strong {
+    font-size: 1.1rem;
+}
+.review-header .review-stars {
+    margin-left: auto;
+}
+.review-comment {
+    color: var(--text-muted);
+}
+
+/* base.html এর CSS এর শেষে যোগ করুন */
+.review-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.review-item:first-child {
+    padding-top: 0;
+}
+.review-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.review-header {
+    display: flex;
+    align-items-center;
+    margin-bottom: 0.5rem;
+}
+/* base.html এর CSS এর শেষে যোগ করুন */
+.form-error-message {
+    color: #f77; /* A light red color for dark theme */
+    font-size: 0.875em;
+    margin-top: 0.5rem;
+}
     </style>
 </head>
 <body>
@@ -653,6 +772,7 @@
     </header>
 
     <main>
+        
         {% block content %}{% endblock %}
     </main>
 </body>

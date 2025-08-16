@@ -8,68 +8,53 @@
         <h1>Post Your Scrap for Sale</h1>
         <p>Fill in the details below to find a collector near you.</p>
     </div>
-    <form method="POST" action="{{ url_for('create_post') }}" novalidate>
+    
+    <form method="POST" action="{{ url_for('create_post') }}" enctype="multipart/form-data" novalidate>
         {{ form.hidden_tag() }}
         
         <div class="form-group">
             {{ form.trash_type.label(class="form-label") }}
             {{ form.trash_type(class="form-control", placeholder="e.g., Plastic Bottles, Iron Rods") }}
-            {% for error in form.trash_type.errors %}
-                <span class="text-danger">{{ error }}</span>
-            {% endfor %}
         </div>
 
         <div class="form-group">
             {{ form.quantity.label(class="form-label") }}
             {{ form.quantity(class="form-control", placeholder="e.g., 10 (in Kg or pieces)") }}
-            {% for error in form.quantity.errors %}
-                <span class="text-danger">{{ error }}</span>
-            {% endfor %}
         </div>
 
         <div class="form-group">
             {{ form.price_per_kg.label(class="form-label") }}
             {{ form.price_per_kg(class="form-control", placeholder="e.g., 50.00") }}
-            {% for error in form.price_per_kg.errors %}
-                <span class="text-danger">{{ error }}</span>
-            {% endfor %}
         </div>
 
         <div class="form-group">
             {{ form.location.label(class="form-label") }}
             {{ form.location(class="form-control", placeholder="e.g., Dhanmondi, Dhaka") }}
-            {% for error in form.location.errors %}
-                <span class="text-danger">{{ error }}</span>
-            {% endfor %}
         </div>
         
         <div class="form-group">
             {{ form.phone_number.label(class="form-label") }}
             {{ form.phone_number(class="form-control", placeholder="Your contact number") }}
-            {% for error in form.phone_number.errors %}
-                <span class="text-danger">{{ error }}</span>
-            {% endfor %}
         </div>
 
         <div class="form-group">
             {{ form.google_map_link.label(class="form-label") }}
             {{ form.google_map_link(class="form-control", placeholder="http://googleusercontent.com/maps.google.com/...") }}
-            {% for error in form.google_map_link.errors %}
-                <span class="text-danger">{{ error }}</span>
-            {% endfor %}
         </div>
         
         <div class="form-group">
             {{ form.description.label(class="form-label") }}
-            {{ form.description(class="form-control", rows="4", placeholder="Provide a short description of the scrap materials...") }}
-            {% for error in form.description.errors %}
-                <span class="text-danger">{{ error }}</span>
-            {% endfor %}
+            {{ form.description(class="form-control", rows="4", placeholder="Provide a short description...") }}
         </div>
 
         <div class="form-group">
             {{ form.is_negotiable() }}
-            {{ form.is_negotiable.label(class="form-label") }}
+            {{ form.is_negotiable.label(class="form-label ms-2") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.picture.label(class="form-label") }}
+            {{ form.picture(class="form-control") }}
         </div>
 
         <div>
@@ -77,13 +62,4 @@
         </div>
     </form>
 </div>
-
-<style>
-    .text-danger {
-        color: #dc3545;
-        font-size: 0.875em;
-        margin-top: 0.25rem;
-        display: block;
-    }
-</style>
 {% endblock %}

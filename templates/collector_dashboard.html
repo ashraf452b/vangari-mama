@@ -1,10 +1,30 @@
 {% extends "base.html" %}
+
 {% block title %}Collector Dashboard{% endblock %}
+
 {% block content %}
 <div class="container">
     <div class="dashboard-header">
         <h1>Collector Dashboard</h1>
         <p>Manage your pickups and view available scrap posts.</p>
+    </div>
+
+    <div class="stats-grid">
+        
+        <div class="stat-card">
+            <i class="fas fa-check-circle"></i>
+            <div class="stat-info">
+                <h4>Completed Pickups</h4>
+                <p>{{ stats.completed_count }}</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-wallet"></i>
+            <div class="stat-info">
+                <h4>Total Spent</h4>
+                <p>৳ {{ "%.2f"|format(stats.total_spent) }}</p>
+            </div>
+        </div>
     </div>
 
     <div class="posts-list">
@@ -17,8 +37,8 @@
                 <div class="post-card">
                     <h4>{{ post.trash_type.title() }}</h4>
                     <p class="post-card-info"><i class="fas fa-map-marker-alt"></i> {{ post.location }}</p>
-                    <p class="post-card-info"><i class="fas fa-balance-scale"></i> Approx. {{ post.quantity }} Kg</p>
-                    <p class="post-card-price">Asking Price: ৳{{ post.price_per_kg }}/Kg</p>
+                    <p class="post-card-info"><i class="fas fa-balance-scale"></i> Approx. {{ post.quantity }} Kg/Pcs</p>
+                    <p class="post-card-price">Asking Price: ৳{{ "%.2f"|format(post.price_per_kg) }}/Kg</p>
                     <a href="{{ url_for('view_post', post_id=post.id) }}" class="btn-view-post">View Details</a>
                 </div>
                 {% endfor %}

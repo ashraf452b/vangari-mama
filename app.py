@@ -30,6 +30,12 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(instance_path, 'database.db')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+# --- নতুন: ছবি আপলোডের জন্য ফোল্ডার কনফিগারেশন ---
+UPLOAD_FOLDER = os.path.join(basedir, 'static/post_pics')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True) 
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
 db.init_app(app)
 login_manager.init_app(app)
 migrate.init_app(app, db)
