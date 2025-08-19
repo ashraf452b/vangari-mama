@@ -6,12 +6,11 @@ from sqlalchemy.orm import DeclarativeBase
 from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_migrate import Migrate
 
-# --- ডাটাবেস পাথের জন্য নতুন কোড ---
-# প্রজেক্টের রুট ডিরেক্টরির পাথ খুঁজে বের করা হচ্ছে
+
 basedir = os.path.abspath(os.path.dirname(__file__))
-# instance ফোল্ডারের পাথ তৈরি করা হচ্ছে
+
 instance_path = os.path.join(basedir, 'instance')
-# যদি instance ফোল্ডার না থাকে, তবে তৈরি করা হচ্ছে
+
 os.makedirs(instance_path, exist_ok=True)
 
 
@@ -26,11 +25,11 @@ app = Flask(__name__)
 app.secret_key = "a-very-secret-key-for-development"
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-# --- ডাটাবেস URI-তে নতুন পাথ ব্যবহার করা হচ্ছে ---
+
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(instance_path, 'database.db')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-# --- নতুন: ছবি আপলোডের জন্য ফোল্ডার কনফিগারেশন ---
+
 UPLOAD_FOLDER = os.path.join(basedir, 'static/post_pics')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True) 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

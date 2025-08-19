@@ -1,779 +1,785 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Vangari Mama{% endblock %}</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
 
     <style>
-        :root {
-            --dark-bg: #111827;
-            --dark-card: #1F2937;
-            --primary-blue: #3B82F6;
-            --primary-hover: #2563EB;
-            --text-light: #F9FAFB;
-            --text-muted: #9CA3AF;
-            --border-color: #374151;
-        }
+              :root {
+                  --dark-bg: #111827;
+                  --dark-card: #1F2937;
+                  --primary-blue: #3B82F6;
+                  --primary-hover: #2563EB;
+                  --text-light: #F9FAFB;
+                  --text-muted: #9CA3AF;
+                  --border-color: #374151;
+              }
 
-        body {
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            line-height: 1.6;
-        }
+              body {
+                  background-color: var(--dark-bg);
+                  color: var(--text-light);
+                  font-family: 'Inter', sans-serif;
+                  margin: 0;
+                  line-height: 1.6;
+              }
 
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+              .container {
+                  width: 90%;
+                  max-width: 1200px;
+                  margin: 0 auto;
+              }
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 0;
-            background-color: var(--dark-bg);
-            border-bottom: 1px solid var(--border-color);
-        }
+              .navbar {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  padding: 1.5rem 0;
+                  background-color: var(--dark-bg);
+                  border-bottom: 1px solid var(--border-color);
+              }
 
-        .navbar .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text-light);
-            text-decoration: none;
-        }
-        .navbar .logo i {
-            color: var(--primary-blue);
-            margin-right: 0.5rem;
-        }
+              .navbar .logo {
+                  font-size: 1.5rem;
+                  font-weight: 800;
+                  color: var(--text-light);
+                  text-decoration: none;
+              }
+              .navbar .logo i {
+                  color: var(--primary-blue);
+                  margin-right: 0.5rem;
+              }
 
-        .navbar .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            margin: 0 1rem;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-        .navbar .nav-links a:hover {
-            color: var(--text-light);
-        }
+              .navbar .nav-links a {
+                  color: var(--text-muted);
+                  text-decoration: none;
+                  margin: 0 1rem;
+                  font-weight: 500;
+                  transition: color 0.2s ease;
+              }
+              .navbar .nav-links a:hover {
+                  color: var(--text-light);
+              }
 
-        .navbar .nav-buttons .btn {
-            text-decoration: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 0.5rem;
-            font-weight: 700;
-            transition: background-color 0.2s ease;
-            border: 1px solid transparent;
-        }
-        .navbar .nav-buttons .btn-signin {
-            color: var(--text-light);
-            margin-right: 0.5rem;
-        }
-        .navbar .nav-buttons .btn-signin:hover {
-            background-color: var(--dark-card);
-        }
-        .navbar .nav-buttons .btn-getstarted {
-            background-color: var(--primary-blue);
-            color: var(--text-light);
-        }
-        .navbar .nav-buttons .btn-getstarted:hover {
-            background-color: var(--primary-hover);
-        }
+              .navbar .nav-buttons .btn {
+                  text-decoration: none;
+                  padding: 0.6rem 1.2rem;
+                  border-radius: 0.5rem;
+                  font-weight: 700;
+                  transition: background-color 0.2s ease;
+                  border: 1px solid transparent;
+              }
+              .navbar .nav-buttons .btn-signin {
+                  color: var(--text-light);
+                  margin-right: 0.5rem;
+              }
+              .navbar .nav-buttons .btn-signin:hover {
+                  background-color: var(--dark-card);
+              }
+              .navbar .nav-buttons .btn-getstarted {
+                  background-color: var(--primary-blue);
+                  color: var(--text-light);
+              }
+              .navbar .nav-buttons .btn-getstarted:hover {
+                  background-color: var(--primary-hover);
+              }
 
-        main {
-            padding: 4rem 0;
-        }
+              main {
+                  padding: 4rem 0;
+              }
 
-        /* Form Styles */
-        .form-container {
-            max-width: 480px;
-            margin: 2rem auto;
-            background-color: var(--dark-card);
-            padding: 3rem;
-            border-radius: 0.75rem;
-            border: 1px solid var(--border-color);
-        }
-        .form-header h1 {
-            text-align: center;
-            font-size: 2.25rem;
-            font-weight: 800;
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-        }
-        .form-header p {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 2.5rem;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        .form-group .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        .form-control {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            background-color: var(--dark-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            color: var(--text-light);
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-        }
-        .form-btn {
-            width: 100%;
-            padding: 0.9rem;
-            border: none;
-            border-radius: 0.5rem;
-            background-color: var(--primary-blue);
-            color: var(--text-light);
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .form-switch-link {
-            text-align: center;
-            margin-top: 1.5rem;
-        }
-        .form-switch-link a {
-            color: var(--primary-blue);
-            text-decoration: none;
-        }
+              /* Form Styles */
+              .form-container {
+                  max-width: 480px;
+                  margin: 2rem auto;
+                  background-color: var(--dark-card);
+                  padding: 3rem;
+                  border-radius: 0.75rem;
+                  border: 1px solid var(--border-color);
+              }
+              .form-header h1 {
+                  text-align: center;
+                  font-size: 2.25rem;
+                  font-weight: 800;
+                  margin-top: 0;
+                  margin-bottom: 0.5rem;
+              }
+              .form-header p {
+                  text-align: center;
+                  color: var(--text-muted);
+                  margin-bottom: 2.5rem;
+              }
+              .form-group {
+                  margin-bottom: 1.5rem;
+              }
+              .form-group .form-label {
+                  display: block;
+                  margin-bottom: 0.5rem;
+                  font-weight: 500;
+              }
+              .form-control {
+                  width: 100%;
+                  padding: 0.8rem 1rem;
+                  background-color: var(--dark-bg);
+                  border: 1px solid var(--border-color);
+                  border-radius: 0.5rem;
+                  color: var(--text-light);
+                  font-size: 1rem;
+                  box-sizing: border-box;
+              }
+              .form-control:focus {
+                  outline: none;
+                  border-color: var(--primary-blue);
+                  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+              }
+              .form-btn {
+                  width: 100%;
+                  padding: 0.9rem;
+                  border: none;
+                  border-radius: 0.5rem;
+                  background-color: var(--primary-blue);
+                  color: var(--text-light);
+                  font-size: 1rem;
+                  font-weight: 700;
+                  cursor: pointer;
+              }
+              .form-switch-link {
+                  text-align: center;
+                  margin-top: 1.5rem;
+              }
+              .form-switch-link a {
+                  color: var(--primary-blue);
+                  text-decoration: none;
+              }
 
-        /* Dashboard Styles */
-        .dashboard-header {
-            margin-bottom: 2.5rem;
-        }
-        .dashboard-header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-        }
-        .dashboard-header p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
-        .stat-card {
-            display: flex;
-            align-items: center;
-            background-color: var(--dark-card);
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            border: 1px solid var(--border-color);
-        }
-        .stat-card i {
-            font-size: 2rem;
-            color: var(--primary-blue);
-            margin-right: 1.5rem;
-        }
-        .stat-card h4 {
-            margin: 0 0 0.25rem 0;
-            font-size: 1rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-        .stat-card p {
-            margin: 0;
-            font-size: 1.75rem;
-            font-weight: 700;
-        }
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 2rem;
-        }
-        .profile-card, .posts-list {
-            background-color: var(--dark-card);
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            padding: 2rem;
-        }
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            padding-bottom: 1rem;
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .profile-info p {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        .profile-info p i {
-            color: var(--primary-blue);
-            margin-right: 1rem;
-            width: 20px;
-        }
-        .posts-list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1rem;
-            margin-bottom: 1rem;
-        }
-        .create-post-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background-color: var(--primary-blue);
-            color: var(--text-light);
-            text-decoration: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-        }
-        .post-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-        }
-        .post-details {
-            font-weight: 500;
-        }
-        .status-badge {
-            padding: 0.3rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        .status-pending {
-            background-color: #f59e0b20;
-            color: #f59e0b;
-        }
-        .status-completed {
-            background-color: #10b98120;
-            color: #10b981;
-        }
-        .no-posts-message {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-muted);
-        }
-        
-        /* --- নতুন যোগ করা অ্যাডমিন প্যানেলের CSS --- */
-        .admin-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 2rem; 
-        }
-        .admin-card { 
-            background-color: var(--dark-card); 
-            border: 1px solid var(--border-color); 
-            border-radius: 0.75rem; 
-            padding: 2rem; 
-        }
-        .table-responsive { 
-            overflow-x: auto; 
-        }
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-        }
-        th, td { 
-            padding: 0.75rem 1rem; 
-            text-align: left; 
-            border-bottom: 1px solid var(--border-color); 
-        }
-        th { 
-            font-weight: 500; 
-            color: var(--text-muted); 
-        }
-        tbody tr:last-child td { 
-            border-bottom: none; 
-        }
-        tbody tr:hover { 
-            background-color: rgba(255, 255, 255, 0.03); 
-        }
+              /* Dashboard Styles */
+              .dashboard-header {
+                  margin-bottom: 2.5rem;
+              }
+              .dashboard-header h1 {
+                  font-size: 2.5rem;
+                  font-weight: 800;
+              }
+              .dashboard-header p {
+                  font-size: 1.1rem;
+                  color: var(--text-muted);
+              }
+              .stats-grid {
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                  gap: 1.5rem;
+                  margin-bottom: 2.5rem;
+              }
+              .stat-card {
+                  display: flex;
+                  align-items: center;
+                  background-color: var(--dark-card);
+                  padding: 1.5rem;
+                  border-radius: 0.75rem;
+                  border: 1px solid var(--border-color);
+              }
+              .stat-card i {
+                  font-size: 2rem;
+                  color: var(--primary-blue);
+                  margin-right: 1.5rem;
+              }
+              .stat-card h4 {
+                  margin: 0 0 0.25rem 0;
+                  font-size: 1rem;
+                  color: var(--text-muted);
+                  font-weight: 500;
+              }
+              .stat-card p {
+                  margin: 0;
+                  font-size: 1.75rem;
+                  font-weight: 700;
+              }
+              .dashboard-grid {
+                  display: grid;
+                  grid-template-columns: 320px 1fr;
+                  gap: 2rem;
+              }
+              .profile-card, .posts-list {
+                  background-color: var(--dark-card);
+                  border: 1px solid var(--border-color);
+                  border-radius: 0.75rem;
+                  padding: 2rem;
+              }
+              .card-title {
+                  font-size: 1.25rem;
+                  font-weight: 700;
+                  padding-bottom: 1rem;
+                  margin-top: 0;
+                  margin-bottom: 1.5rem;
+                  border-bottom: 1px solid var(--border-color);
+              }
+              .profile-info p {
+                  display: flex;
+                  align-items: center;
+                  margin-bottom: 1rem;
+              }
+              .profile-info p i {
+                  color: var(--primary-blue);
+                  margin-right: 1rem;
+                  width: 20px;
+              }
+              .posts-list-header {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  border-bottom: 1px solid var(--border-color);
+                  padding-bottom: 1rem;
+                  margin-bottom: 1rem;
+              }
+              .create-post-btn {
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                  background-color: var(--primary-blue);
+                  color: var(--text-light);
+                  text-decoration: none;
+                  padding: 0.6rem 1.2rem;
+                  border-radius: 0.5rem;
+                  font-weight: 500;
+              }
+              .post-item {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  padding: 1rem;
+                  margin-bottom: 1rem;
+                  border: 1px solid var(--border-color);
+                  border-radius: 0.5rem;
+              }
+              .post-details {
+                  font-weight: 500;
+              }
+              .status-badge {
+                  padding: 0.3rem 0.8rem;
+                  border-radius: 50px;
+                  font-size: 0.8rem;
+                  font-weight: 700;
+                  text-transform: uppercase;
+              }
+              .status-pending {
+                  background-color: #f59e0b20;
+                  color: #f59e0b;
+              }
+              .status-completed {
+                  background-color: #10b98120;
+                  color: #10b981;
+              }
+              .no-posts-message {
+                  text-align: center;
+                  padding: 3rem;
+                  color: var(--text-muted);
+              }
+              .admin-grid {
+                  display: grid;
+                  grid-template-columns: 1fr 1fr;
+                  gap: 2rem;
+              }
+              .admin-card {
+                  background-color: var(--dark-card);
+                  border: 1px solid var(--border-color);
+                  border-radius: 0.75rem;
+                  padding: 2rem;
+              }
+              .table-responsive {
+                  overflow-x: auto;
+              }
+              table {
+                  width: 100%;
+                  border-collapse: collapse;
+              }
+              th, td {
+                  padding: 0.75rem 1rem;
+                  text-align: left;
+                  border-bottom: 1px solid var(--border-color);
+              }
+              th {
+                  font-weight: 500;
+                  color: var(--text-muted);
+              }
+              tbody tr:last-child td {
+                  border-bottom: none;
+              }
+              tbody tr:hover {
+                  background-color: rgba(255, 255, 255, 0.03);
+              }
 
-        /* base.html ফাইলের CSS এর শেষে যোগ করুন */
-.status-available {
-    background-color: #3b82f620; /* নীল রঙের ব্যাকগ্রাউন্ড */
-    color: #3b82f6; /* নীল রঙের টেক্সট */
-}
-/* Collector Dashboard Post Cards */
-.post-card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-}
-.post-card {
-    background-color: var(--dark-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-}
-.post-card h4 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-    color: var(--text-light);
-}
-.post-card-info {
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-}
-.post-card-info i {
-    margin-right: 0.75rem;
-    width: 15px;
-}
-.post-card-price {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--primary-blue);
-    margin-top: auto;
-    padding-top: 1rem;
-}
-.btn-view-post {
-    display: block;
-    text-align: center;
-    margin-top: 1rem;
-    padding: 0.75rem;
-    background-color: var(--primary-blue);
-    color: var(--text-light);
-    text-decoration: none;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
-}
-.btn-view-post:hover {
-    background-color: var(--primary-hover);
-}
+      .status-available {
+          background-color: #3b82f620;
+          color: #3b82f6;
+      }
+      /* Collector Dashboard Post Cards */
+      .post-card-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 1.5rem;
+      }
+      .post-card {
+          background-color: var(--dark-bg);
+          border: 1px solid var(--border-color);
+          border-radius: 0.75rem;
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+      }
+      .post-card h4 {
+          margin-top: 0;
+          margin-bottom: 1rem;
+          font-size: 1.2rem;
+          color: var(--text-light);
+      }
+      .post-card-info {
+          color: var(--text-muted);
+          margin-bottom: 0.5rem;
+          display: flex;
+          align-items: center;
+      }
+      .post-card-info i {
+          margin-right: 0.75rem;
+          width: 15px;
+      }
+      .post-card-price {
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: var(--primary-blue);
+          margin-top: auto;
+          padding-top: 1rem;
+      }
+      .btn-view-post {
+          display: block;
+          text-align: center;
+          margin-top: 1rem;
+          padding: 0.75rem;
+          background-color: var(--primary-blue);
+          color: var(--text-light);
+          text-decoration: none;
+          border-radius: 0.5rem;
+          font-weight: 500;
+          transition: background-color 0.2s ease;
+      }
+      .btn-view-post:hover {
+          background-color: var(--primary-hover);
+      }
 
-/* base.html ফাইলের CSS এর শেষে যোগ করুন */
-.post-details-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 2rem;
-    align-items: flex-start;
-}
-.post-info-card, .transaction-card {
-    background-color: var(--dark-card);
-    padding: 2rem;
-    border-radius: 0.75rem;
-    border: 1px solid var(--border-color);
-}
-.post-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    color: var(--text-light);
-}
-.posted-by {
-    color: var(--text-muted);
-    margin-bottom: 2rem;
-    font-size: 1rem;
-}
-.info-section {
-    margin-bottom: 2rem;
-}
-.info-section h3 {
-    font-size: 1.2rem;
-    color: var(--primary-blue);
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.5rem;
-}
-.info-section p {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5rem;
-}
-.info-section p i {
-    margin-right: 1rem;
-    width: 20px;
-}
-.info-section a {
-    color: var(--text-light);
-    text-decoration: none;
-    border-bottom: 1px dotted var(--primary-blue);
-}
-.asking-price {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary-blue);
-}
-.transaction-card h3 {
-    margin-top: 0;
-}
-.transaction-form {
-    margin-top: 1.5rem;
-}
 
-/* base.html এর CSS এর শেষে যোগ করুন */
-.offers-section .section-title i {
-    margin-right: 0.75rem;
-    color: var(--primary-blue);
-}
-.offer-card {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    background-color: var(--dark-bg);
-    margin-bottom: 1rem;
-    border-left: 4px solid var(--primary-blue);
-}
-.offer-icon i {
-    font-size: 1.5rem;
-    color: var(--primary-blue);
-}
-.offer-details p {
-    margin: 0;
-    line-height: 1.4;
-}
-.offer-price {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-.offer-actions {
-    margin-left: auto;
-    display: flex;
-    gap: 0.5rem;
-}
-.btn-accept, .btn-reject {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1rem;
-    border: none;
-    border-radius: 0.5rem;
-    color: white;
-    cursor: pointer;
-    font-weight: 500;
-}
-.btn-accept { background-color: #10b981; }
-.btn-reject { background-color: #6b7280; }
+      .post-details-grid {
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          gap: 2rem;
+          align-items: flex-start;
+      }
+      .post-info-card, .transaction-card {
+          background-color: var(--dark-card);
+          padding: 2rem;
+          border-radius: 0.75rem;
+          border: 1px solid var(--border-color);
+      }
+      .post-title {
+          font-size: 2.5rem;
+          font-weight: 800;
+          margin-top: 0;
+          margin-bottom: 0.5rem;
+          color: var(--text-light);
+      }
+      .posted-by {
+          color: var(--text-muted);
+          margin-bottom: 2rem;
+          font-size: 1rem;
+      }
+      .info-section {
+          margin-bottom: 2rem;
+      }
+      .info-section h3 {
+          font-size: 1.2rem;
+          color: var(--primary-blue);
+          margin-bottom: 1rem;
+          border-bottom: 1px solid var(--border-color);
+          padding-bottom: 0.5rem;
+      }
+      .info-section p {
+          display: flex;
+          align-items: center;
+          margin-bottom: 0.5rem;
+      }
+      .info-section p i {
+          margin-right: 1rem;
+          width: 20px;
+      }
+      .info-section a {
+          color: var(--text-light);
+          text-decoration: none;
+          border-bottom: 1px dotted var(--primary-blue);
+      }
+      .asking-price {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: var(--primary-blue);
+      }
+      .transaction-card h3 {
+          margin-top: 0;
+      }
+      .transaction-form {
+          margin-top: 1.5rem;
+      }
 
-.empty-state {
-        text-align: center;
-        padding: 3rem 2rem;
-        color: var(--text-muted);
-        background-color: var(--dark-bg);
-        border-radius: 0.5rem;
-        border: 1px dashed var(--border-color);
-    }
-    .empty-state i {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-    }
 
-    /* Smart Edit/Delete Buttons */
-    .btn-edit, .btn-delete {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 0.5rem;
-        color: white;
-        text-decoration: none;
-        cursor: pointer;
-        font-size: 0.9rem;
-    }
-    .btn-edit { background-color: var(--primary-blue); }
-    .btn-delete { background-color: #dc3545; }
+      .offers-section .section-title i {
+          margin-right: 0.75rem;
+          color: var(--primary-blue);
+      }
+      .offer-card {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+          padding: 1.5rem;
+          border-radius: 0.5rem;
+          background-color: var(--dark-bg);
+          margin-bottom: 1rem;
+          border-left: 4px solid var(--primary-blue);
+      }
+      .offer-icon i {
+          font-size: 1.5rem;
+          color: var(--primary-blue);
+      }
+      .offer-details p {
+          margin: 0;
+          line-height: 1.4;
+      }
+      .offer-price {
+          font-size: 0.9rem;
+          color: var(--text-muted);
+      }
+      .offer-actions {
+          margin-left: auto;
+          display: flex;
+          gap: 0.5rem;
+      }
+      .btn-accept, .btn-reject {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.6rem 1rem;
+          border: none;
+          border-radius: 0.5rem;
+          color: white;
+          cursor: pointer;
+          font-weight: 500;
+      }
+      .btn-accept { background-color: #10b981; }
+      .btn-reject { background-color: #6b7280; }
 
-    /* --- Available Posts Page Styles (এই অংশটুকু যোগ করুন) --- */
-.page-header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-.page-header h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-}
-.page-header p {
-    color: var(--text-muted);
-    font-size: 1.1rem;
-}
-.post-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 1.5rem;
-}
-.post-card {
-    background-color: var(--dark-card);
-    border: 1px solid var(--border-color);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.post-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
-.post-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-.post-card-header h2 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin: 0;
-}
-.post-card-price {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--primary-blue);
-}
-.post-card-body p {
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-}
-.post-card-body i {
-    margin-right: 0.75rem;
-    color: var(--text-muted);
-    width: 15px;
-}
-.post-card-footer {
-    margin-top: auto;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border-color);
-}
-.view-details-btn {
-    display: block;
-    width: 100%;
-    text-align: center;
-    padding: 0.7rem;
-    background-color: var(--primary-blue);
-    color: var(--text-light);
-    text-decoration: none;
-    border-radius: 0.5rem;
-    font-weight: 700;
-    transition: background-color 0.2s ease;
-}
-.view-details-btn:hover {
-    background-color: var(--primary-hover);
-}
-.empty-state-full-width {
-    grid-column: 1 / -1; /* This makes the div span the full width of the grid */
-    text-align: center;
-    padding: 4rem 2rem;
-    color: var(--text-muted);
-    background-color: var(--dark-card);
-    border-radius: 0.75rem;
-    border: 1px dashed var(--border-color);
-}
-.empty-state-full-width i {
-    font-size: 3rem;
-    margin-bottom: 1.5rem;
-    color: var(--primary-blue);
-}
-.empty-state-full-width h3 {
-    font-size: 1.5rem;
-    color: var(--text-light);
-    margin-bottom: 0.5rem;
-}
+      .empty-state {
+              text-align: center;
+              padding: 3rem 2rem;
+              color: var(--text-muted);
+              background-color: var(--dark-bg);
+              border-radius: 0.5rem;
+              border: 1px dashed var(--border-color);
+          }
+          .empty-state i {
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+          }
 
-/* base.html এর CSS এর শেষে যোগ করুন */
-.fixed-price-info {
-    background-color: var(--dark-bg);
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--border-color);
-    margin: 1.5rem 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.fixed-price-info span {
-    color: var(--text-muted);
-}
-.fixed-price-info strong {
-    font-size: 1.2rem;
-    color: var(--primary-blue);
-}
-/* --- নতুন ফিচারগুলোর জন্য CSS (এই অংশটুকু যোগ করুন) --- */
+          /* Smart Edit/Delete Buttons */
+          .btn-edit, .btn-delete {
+              display: inline-flex;
+              align-items: center;
+              gap: 0.5rem;
+              padding: 0.5rem 1rem;
+              border: none;
+              border-radius: 0.5rem;
+              color: white;
+              text-decoration: none;
+              cursor: pointer;
+              font-size: 0.9rem;
+          }
+          .btn-edit { background-color: var(--primary-blue); }
+          .btn-delete { background-color: #dc3545; }
 
-/* Homepage Testimonials */
-.testimonial-card {
-    background-color: var(--dark-card);
-    border: 1px solid var(--border-color);
-    border-top: 4px solid var(--primary-blue);
-    padding: 2rem;
-    border-radius: 0.5rem;
-    height: 100%;
-}
-.testimonial-card img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-}
-.testimonial-stars {
-    color: #f59e0b; /* A nice yellow/orange color for stars */
-}
 
-/* Search Bar on Available Posts Page */
-.search-form {
-    display: flex;
-    max-width: 600px;
-    margin: 1.5rem auto 0 auto;
-    border: 1px solid var(--border-color);
-    border-radius: 50px;
-    overflow: hidden;
-}
-.search-form input {
-    flex-grow: 1;
-    border: none;
-    background-color: transparent;
-    padding: 0.75rem 1.5rem;
-    color: var(--text-light);
-    font-size: 1rem;
-}
-.search-form input:focus {
-    outline: none;
-}
-.search-form button {
-    background-color: var(--primary-blue);
-    color: var(--text-light);
-    border: none;
-    padding: 0 1.5rem;
-    cursor: pointer;
-    font-size: 1.1rem;
-}
+      .page-header {
+          text-align: center;
+          margin-bottom: 3rem;
+      }
+      .page-header h1 {
+          font-size: 2.5rem;
+          font-weight: 800;
+      }
+      .page-header p {
+          color: var(--text-muted);
+          font-size: 1.1rem;
+      }
+      .post-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 1.5rem;
+      }
+      .post-card {
+          background-color: var(--dark-card);
+          border: 1px solid var(--border-color);
+          border-radius: 0.75rem;
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .post-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+      .post-card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1rem;
+      }
+      .post-card-header h2 {
+          font-size: 1.25rem;
+          font-weight: 700;
+          margin: 0;
+      }
+      .post-card-price {
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: var(--primary-blue);
+      }
+      .post-card-body p {
+          color: var(--text-muted);
+          margin-bottom: 0.5rem;
+          display: flex;
+          align-items: center;
+      }
+      .post-card-body i {
+          margin-right: 0.75rem;
+          color: var(--text-muted);
+          width: 15px;
+      }
+      .post-card-footer {
+          margin-top: auto;
+          padding-top: 1rem;
+          border-top: 1px solid var(--border-color);
+      }
+      .view-details-btn {
+          display: block;
+          width: 100%;
+          text-align: center;
+          padding: 0.7rem;
+          background-color: var(--primary-blue);
+          color: var(--text-light);
+          text-decoration: none;
+          border-radius: 0.5rem;
+          font-weight: 700;
+          transition: background-color 0.2s ease;
+      }
+      .view-details-btn:hover {
+          background-color: var(--primary-hover);
+      }
+      .empty-state-full-width {
+          grid-column: 1 / -1; /* This makes the div span the full width of the grid */
+          text-align: center;
+          padding: 4rem 2rem;
+          color: var(--text-muted);
+          background-color: var(--dark-card);
+          border-radius: 0.75rem;
+          border: 1px dashed var(--border-color);
+      }
+      .empty-state-full-width i {
+          font-size: 3rem;
+          margin-bottom: 1.5rem;
+          color: var(--primary-blue);
+      }
+      .empty-state-full-width h3 {
+          font-size: 1.5rem;
+          color: var(--text-light);
+          margin-bottom: 0.5rem;
+      }
 
-/* Image Display Styles */
-.post-card-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 0.75rem 0.75rem 0 0;
-    margin: -1.5rem -1.5rem 1.5rem -1.5rem; /* Pull image to the card edges */
-}
-.post-main-image {
-    width: 100%;
-    max-height: 500px;
-    object-fit: cover;
-    border-radius: 0.75rem;
-    margin-bottom: 1.5rem;
-}
 
-/* Review System Styles */
-.reviews-section {
-    background-color: var(--dark-card);
-    padding: 2rem;
-    border-radius: 0.75rem;
-    margin-top: 2rem;
-    border: 1px solid var(--border-color);
-}
-.review-item {
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--border-color);
-}
-.review-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-.review-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5rem;
-}
-.review-header strong {
-    font-size: 1.1rem;
-}
-.review-header .review-stars {
-    margin-left: auto;
-}
-.review-comment {
-    color: var(--text-muted);
-}
+      .fixed-price-info {
+          background-color: var(--dark-bg);
+          padding: 1rem;
+          border-radius: 0.5rem;
+          border: 1px solid var(--border-color);
+          margin: 1.5rem 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+      .fixed-price-info span {
+          color: var(--text-muted);
+      }
+      .fixed-price-info strong {
+          font-size: 1.2rem;
+          color: var(--primary-blue);
+      }
 
-/* base.html এর CSS এর শেষে যোগ করুন */
-.review-item {
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--border-color);
-}
-.review-item:first-child {
-    padding-top: 0;
-}
-.review-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-.review-header {
-    display: flex;
-    align-items-center;
-    margin-bottom: 0.5rem;
-}
-/* base.html এর CSS এর শেষে যোগ করুন */
-.form-error-message {
-    color: #f77; /* A light red color for dark theme */
-    font-size: 0.875em;
-    margin-top: 0.5rem;
-}
+
+      /* Homepage Testimonials */
+      .testimonial-card {
+          background-color: var(--dark-card);
+          border: 1px solid var(--border-color);
+          border-top: 4px solid var(--primary-blue);
+          padding: 2rem;
+          border-radius: 0.5rem;
+          height: 100%;
+      }
+      .testimonial-card img {
+          width: 80px;
+          height: 80px;
+          object-fit: cover;
+      }
+      .testimonial-stars {
+          color: #f59e0b; /* A nice yellow/orange color for stars */
+      }
+
+      /* Search Bar on Available Posts Page */
+      .search-form {
+          display: flex;
+          max-width: 600px;
+          margin: 1.5rem auto 0 auto;
+          border: 1px solid var(--border-color);
+          border-radius: 50px;
+          overflow: hidden;
+      }
+      .search-form input {
+          flex-grow: 1;
+          border: none;
+          background-color: transparent;
+          padding: 0.75rem 1.5rem;
+          color: var(--text-light);
+          font-size: 1rem;
+      }
+      .search-form input:focus {
+          outline: none;
+      }
+      .search-form button {
+          background-color: var(--primary-blue);
+          color: var(--text-light);
+          border: none;
+          padding: 0 1.5rem;
+          cursor: pointer;
+          font-size: 1.1rem;
+      }
+
+      /* Image Display Styles */
+      .post-card-image {
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 0.75rem 0.75rem 0 0;
+          margin: -1.5rem -1.5rem 1.5rem -1.5rem; /* Pull image to the card edges */
+      }
+      .post-main-image {
+          width: 100%;
+          max-height: 500px;
+          object-fit: cover;
+          border-radius: 0.75rem;
+          margin-bottom: 1.5rem;
+      }
+
+      /* Review System Styles */
+      .reviews-section {
+          background-color: var(--dark-card);
+          padding: 2rem;
+          border-radius: 0.75rem;
+          margin-top: 2rem;
+          border: 1px solid var(--border-color);
+      }
+      .review-item {
+          padding: 1.5rem 0;
+          border-bottom: 1px solid var(--border-color);
+      }
+      .review-item:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+      }
+      .review-header {
+          display: flex;
+          align-items: center;
+          margin-bottom: 0.5rem;
+      }
+      .review-header strong {
+          font-size: 1.1rem;
+      }
+      .review-header .review-stars {
+          margin-left: auto;
+      }
+      .review-comment {
+          color: var(--text-muted);
+      }
+
+
+      .review-item {
+          padding: 1rem 0;
+          border-bottom: 1px solid var(--border-color);
+      }
+      .review-item:first-child {
+          padding-top: 0;
+      }
+      .review-item:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+      }
+      .review-header {
+          display: flex;
+          align-items-center;
+          margin-bottom: 0.5rem;
+      }
+
+      .form-error-message {
+          color: #f77; /* A light red color for dark theme */
+          font-size: 0.875em;
+          margin-top: 0.5rem;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header class="navbar container">
-        <a href="{{ url_for('home') }}" class="logo"><i class="fas fa-recycle"></i>Vangari Mama</a>
-        <nav class="nav-links">
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('all_posts') }}">Available Posts</a>
-            <a href="{{ url_for('how_it_works') }}">How It Works</a>
-        </nav>
-        <div class="nav-buttons">
-            {% if current_user.is_authenticated %}
-                <a href="{{ url_for('logout') }}" class="btn btn-signin">Log Out</a>
-                
-                {% if current_user.is_admin %}
-                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-getstarted">Admin Panel</a>
-                {% else %}
-                    <a href="{{ url_for('user_dashboard') }}" class="btn btn-getstarted">My Dashboard</a>
-                {% endif %}
+      <a href="{{ url_for('home') }}" class="logo"
+        ><i class="fas fa-recycle"></i>Vangari Mama</a
+      >
+      <nav class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('all_posts') }}">Available Posts</a>
+        <a href="{{ url_for('how_it_works') }}">How It Works</a>
+      </nav>
+      <div class="nav-buttons">
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('logout') }}" class="btn btn-signin">Log Out</a>
 
-            {% else %}
-                <a href="{{ url_for('login') }}" class="btn btn-signin">Sign In</a>
-                <a href="{{ url_for('register') }}" class="btn btn-getstarted">Sign Up</a>
-            {% endif %}
-        </div>
+        {% if current_user.is_admin %}
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-getstarted"
+          >Admin Panel</a
+        >
+        {% else %}
+        <a href="{{ url_for('user_dashboard') }}" class="btn btn-getstarted"
+          >My Dashboard</a
+        >
+        {% endif %} {% else %}
+        <a href="{{ url_for('login') }}" class="btn btn-signin">Sign In</a>
+        <a href="{{ url_for('register') }}" class="btn btn-getstarted"
+          >Sign Up</a
+        >
+        {% endif %}
+      </div>
     </header>
 
-    <main>
-        
-        {% block content %}{% endblock %}
-    </main>
-</body>
+    <main>{% block content %}{% endblock %}</main>
+  </body>
 </html>

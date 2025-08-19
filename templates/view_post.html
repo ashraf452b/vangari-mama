@@ -1,86 +1,134 @@
-{% extends "base.html" %}
-
-{% block title %}{{ post.trash_type.title() }}{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}{{ post.trash_type.title() }}{%
+endblock %} {% block content %}
 <div class="container">
-    <div class="post-details-grid">
-        <div class="post-info-card">
-            <img src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="{{ post.trash_type }}" class="post-main-image">
+  <div class="post-details-grid">
+    <div class="post-info-card">
+      <img
+        src="{{ url_for('static', filename='post_pics/' + post.image_file) }}"
+        alt="{{ post.trash_type }}"
+        class="post-main-image"
+      />
 
-            <h1 class="post-title">{{ post.trash_type.title() }}</h1>
-            <p class="posted-by">Posted by: {{ post.owner.username }}</p>
-            
-            <div class="info-section">
-                <h3>Details</h3>
-                <p>{{ post.description }}</p>
-            </div>
+      <h1 class="post-title">{{ post.trash_type.title() }}</h1>
+      <p class="posted-by">Posted by: {{ post.owner.username }}</p>
 
-            <div class="info-section">
-                <h3>Contact & Location</h3>
-                <p><i class="fas fa-phone-alt fa-fw"></i> {{ post.phone_number }}</p>
-                <p><i class="fas fa-map-marker-alt fa-fw"></i> {{ post.location }}</p>
-                {% if post.google_map_link %}
-                <p><i class="fas fa-map fa-fw"></i> <a href="{{ post.google_map_link }}" target="_blank">View on Google Maps</a></p>
-                {% endif %}
-            </div>
+      <div class="info-section">
+        <h3>Details</h3>
+        <p>{{ post.description }}</p>
+      </div>
 
-            <div class="info-section">
-                <h3>Pricing</h3>
-                <p>Initial Quantity: {{ post.quantity }} (Kg or Pieces)</p>
-                <p class="asking-price">Asking Price: ৳{{ "%.2f"|format(post.price_per_kg) }}/Kg</p>
-                <p>Negotiable: {{ 'Yes' if post.is_negotiable else 'No' }}</p>
-            </div>
+      <div class="info-section">
+        <h3>Contact & Location</h3>
+        <p><i class="fas fa-phone-alt fa-fw"></i> {{ post.phone_number }}</p>
+        <p><i class="fas fa-map-marker-alt fa-fw"></i> {{ post.location }}</p>
+        {% if post.google_map_link %}
+        <p>
+          <i class="fas fa-map fa-fw"></i>
+          <a href="{{ post.google_map_link }}" target="_blank"
+            >View on Google Maps</a
+          >
+        </p>
+        {% endif %}
+      </div>
+
+      <div class="info-section">
+        <h3>Pricing</h3>
+        <p>Initial Quantity: {{ post.quantity }} (Kg or Pieces)</p>
+        <p class="asking-price">
+          Asking Price: ৳{{ "%.2f"|format(post.price_per_kg) }}/Kg
+        </p>
+        <p>Negotiable: {{ 'Yes' if post.is_negotiable else 'No' }}</p>
+      </div>
+    </div>
+
+    {% if current_user.is_authenticated and current_user.user_type ==
+    'collector' and current_user != post.owner %}
+    <div class="transaction-card">
+      {% if post.is_negotiable %}
+      <h3>Make an Offer</h3>
+      <p>
+        Enter your proposed weight and price. The seller will be notified to
+        accept or reject your offer.
+      </p>
+      <form
+        method="POST"
+        action="{{ url_for('make_offer', post_id=post.id) }}"
+        class="transaction-form"
+      >
+        <div class="form-group">
+          <label for="final_weight" class="form-label"
+            >Proposed Weight (in Kg)</label
+          >
+          <input
+            type="number"
+            step="0.01"
+            name="final_weight"
+            class="form-control"
+            placeholder="e.g., 10.5"
+            required
+          />
+
+          {% if weight_error %}
+          <div class="form-error-message">{{ weight_error }}</div>
+          {% endif %}
         </div>
 
-        {% if current_user.is_authenticated and current_user.user_type == 'collector' and current_user != post.owner %}
-        <div class="transaction-card">
-            
-            {% if post.is_negotiable %}
-            <h3>Make an Offer</h3>
-            <p>Enter your proposed weight and price. The seller will be notified to accept or reject your offer.</p>
-           <form method="POST" action="{{ url_for('make_offer', post_id=post.id) }}" class="transaction-form">
-    <div class="form-group">
-        <label for="final_weight" class="form-label">Proposed Weight (in Kg)</label>
-        <input type="number" step="0.01" name="final_weight" class="form-control" placeholder="e.g., 10.5" required>
-        
-        <!-- Error মেসেজ দেখানোর জন্য এই অংশটি -->
-        {% if weight_error %}
-            <div class="form-error-message">
-                {{ weight_error }}
-            </div>
-        {% endif %}
-    </div>
-
-    <!-- এই অংশটি আপনার কোডে ছিল না -->
-    <div class="form-group">
-        <label for="final_price_per_kg" class="form-label">Your Offer Price (Per Kg)</label>
-        <input type="number" step="0.01" name="final_price_per_kg" class="form-control" placeholder="e.g., 45.50" required>
-    </div>
-
-    <button type="submit" class="form-btn">Submit Offer</button>
-</form>
-            
-            {% else %}
-            <h3>Accept Deal</h3>
-            <p>This item is available at a fixed price. Enter the final weight to proceed.</p>
-            <div class="fixed-price-info">
-                <span>Fixed Price:</span>
-                <strong>৳{{ "%.2f"|format(post.price_per_kg) }}/Kg</strong>
-            </div>
-            <form method="POST" action="{{ url_for('make_offer', post_id=post.id) }}" class="transaction-form">
-                <input type="hidden" name="final_price_per_kg" value="{{ post.price_per_kg }}">
-                
-                <div class="form-group">
-                    <label for="final_weight" class="form-label">Final Weight (in Kg)</label>
-                    <input type="number" step="0.01" name="final_weight" class="form-control" placeholder="e.g., 10.5" required>
-                </div>
-                <button type="submit" class="form-btn">Accept & Proceed</button>
-            </form>
-            {% endif %}
-
+        <div class="form-group">
+          <label for="final_price_per_kg" class="form-label"
+            >Your Offer Price (Per Kg)</label
+          >
+          <input
+            type="number"
+            step="0.01"
+            name="final_price_per_kg"
+            class="form-control"
+            placeholder="e.g., 45.50"
+            required
+          />
         </div>
-        {% endif %}
+
+        <button type="submit" class="form-btn">Submit Offer</button>
+      </form>
+
+      {% else %}
+      <h3>Accept Deal</h3>
+      <p>
+        This item is available at a fixed price. Enter the final weight to
+        proceed.
+      </p>
+      <div class="fixed-price-info">
+        <span>Fixed Price:</span>
+        <strong>৳{{ "%.2f"|format(post.price_per_kg) }}/Kg</strong>
+      </div>
+      <form
+        method="POST"
+        action="{{ url_for('make_offer', post_id=post.id) }}"
+        class="transaction-form"
+      >
+        <input
+          type="hidden"
+          name="final_price_per_kg"
+          value="{{ post.price_per_kg }}"
+        />
+
+        <div class="form-group">
+          <label for="final_weight" class="form-label"
+            >Final Weight (in Kg)</label
+          >
+          <input
+            type="number"
+            step="0.01"
+            name="final_weight"
+            class="form-control"
+            placeholder="e.g., 10.5"
+            required
+          />
+        </div>
+        <button type="submit" class="form-btn">Accept & Proceed</button>
+      </form>
+      {% endif %}
     </div>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}

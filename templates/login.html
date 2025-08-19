@@ -1,29 +1,26 @@
-{% extends "base.html" %}
-
-{% block title %}Sign In - Vangari Mama{% endblock %}
-
+{% extends "base.html" %} {% block title %}Sign In - Vangari Mama{% endblock %}
 {% block content %}
 <div class="form-container">
-    <h1>Sign In to Your Account</h1>
-    <form method="POST" action="{{ url_for('login') }}" novalidate>
-        {{ form.hidden_tag() }}
-        
-        <div class="form-group">
-            {{ form.email.label(class="form-label") }}
-            {{ form.email(class="form-control", placeholder="you@example.com") }}
-        </div>
-        
-        <div class="form-group">
-            {{ form.password.label(class="form-label") }}
-            {{ form.password(class="form-control", placeholder="••••••••") }}
-        </div>
+  <h1>Sign In to Your Account</h1>
+  <form method="POST" action="{{ url_for('login') }}" novalidate>
+    {{ form.hidden_tag() }}
 
-        <div>
-            {{ form.submit(class="form-btn") }}
-        </div>
-    </form>
-    <div class="form-switch-link">
-        <p>Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a></p>
+    <div class="form-group">
+      {{ form.email.label(class="form-label") }} {{
+      form.email(class="form-control", placeholder="you@example.com") }}
     </div>
+
+    <div class="form-group">
+      {{ form.password.label(class="form-label") }} {{
+      form.password(class="form-control", placeholder="••••••••") }}
+    </div>
+
+    <div>{{ form.submit(class="form-btn") }}</div>
+  </form>
+  <div class="form-switch-link">
+    <p>
+      Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a>
+    </p>
+  </div>
 </div>
 {% endblock %}

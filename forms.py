@@ -1,5 +1,4 @@
 from flask_wtf import FlaskForm
-# নতুন দুটি ক্লাস ইম্পোর্ট করা হয়েছে
 from flask_wtf.file import FileField, FileAllowed 
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, DecimalField, IntegerField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Optional
@@ -46,7 +45,7 @@ class PostForm(FlaskForm):
     
     is_negotiable = BooleanField('Price is Negotiable')
     
-    # --- নতুন: ছবি আপলোডের ফিল্ড যোগ করা হয়েছে ---
+
     picture = FileField('Upload a Picture of the Scrap (Optional)', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     
     submit = SubmitField('Create Post')

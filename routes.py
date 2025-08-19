@@ -9,7 +9,7 @@ from forms import LoginForm, RegistrationForm, PostForm
 from decimal import Decimal
 from datetime import datetime
 
-# নতুন: ছবি সেভ করার জন্য হেল্পার ফাংশন
+
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
@@ -22,7 +22,7 @@ def save_picture(form_picture):
     i.save(picture_path)
     return picture_fn
 
-# (ল্যান্ডিং পেজ)
+# Landing Page
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -33,7 +33,7 @@ def how_it_works():
 
 @app.route('/posts')
 def all_posts():
-    # নতুন: সার্চ লজিক যোগ করা হয়েছে
+    # Search
     query = request.args.get('query', '')
     if query:
         posts = TrashPost.query.filter(
@@ -224,9 +224,9 @@ def make_offer(post_id):
         flash('Invalid input for weight or price.', 'danger')
         return redirect(url_for('view_post', post_id=post.id))
 
-    # --- নতুন ভ্যালিডেশন লজিক ---
+
     if final_weight > post.quantity:
-        # এখন flash না করে, error মেসেজ সহ পেজটি আবার রেন্ডার করা হচ্ছে
+
         error_message = f'Weight cannot be more than the available {post.quantity} Kg.'
         return render_template('view_post.html', 
                                title=post.trash_type, 
@@ -339,7 +339,7 @@ def delete_user(user_id):
     flash('User and their posts have been deleted.', 'success')
     return redirect(url_for('manage_users'))
 
-# নতুন: রিভিউ জমা দেওয়ার রুট
+
 @app.route('/post/<int:post_id>/review', methods=['POST'])
 @login_required
 def add_review(post_id):
@@ -351,9 +351,9 @@ def add_review(post_id):
         flash('Rating is required.', 'danger')
         return redirect(url_for('view_post', post_id=post.id))
 
-    if current_user.id == post.user_id: # বিক্রেতা রিভিউ দিচ্ছে
+    if current_user.id == post.user_id: 
         reviewee_id = post.collector_id
-    elif current_user.id == post.collector_id: # ক্রেতা রিভিউ দিচ্ছে
+    elif current_user.id == post.collector_id: 
         reviewee_id = post.user_id
     else:
         flash('You are not authorized to review this transaction.', 'danger')

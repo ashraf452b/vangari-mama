@@ -32,7 +32,7 @@ class MyAdminIndexView(AdminIndexView):
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('login'))
 
-# আপডেট করা অংশ
+
 admin = Admin(
     app,
     name='TrashToTreasure',

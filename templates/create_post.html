@@ -1,65 +1,71 @@
-{% extends "base.html" %}
-
-{% block title %}Create New Post - Vangari Mama{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Create New Post - Vangari Mama{%
+endblock %} {% block content %}
 <div class="form-container">
-    <div class="form-header">
-        <h1>Post Your Scrap for Sale</h1>
-        <p>Fill in the details below to find a collector near you.</p>
+  <div class="form-header">
+    <h1>Post Your Scrap for Sale</h1>
+    <p>Fill in the details below to find a collector near you.</p>
+  </div>
+
+  <form
+    method="POST"
+    action="{{ url_for('create_post') }}"
+    enctype="multipart/form-data"
+    novalidate
+  >
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+      {{ form.trash_type.label(class="form-label") }} {{
+      form.trash_type(class="form-control", placeholder="e.g., Plastic Bottles,
+      Iron Rods") }}
     </div>
-    
-    <form method="POST" action="{{ url_for('create_post') }}" enctype="multipart/form-data" novalidate>
-        {{ form.hidden_tag() }}
-        
-        <div class="form-group">
-            {{ form.trash_type.label(class="form-label") }}
-            {{ form.trash_type(class="form-control", placeholder="e.g., Plastic Bottles, Iron Rods") }}
-        </div>
 
-        <div class="form-group">
-            {{ form.quantity.label(class="form-label") }}
-            {{ form.quantity(class="form-control", placeholder="e.g., 10 (in Kg or pieces)") }}
-        </div>
+    <div class="form-group">
+      {{ form.quantity.label(class="form-label") }} {{
+      form.quantity(class="form-control", placeholder="e.g., 10 (in Kg or
+      pieces)") }}
+    </div>
 
-        <div class="form-group">
-            {{ form.price_per_kg.label(class="form-label") }}
-            {{ form.price_per_kg(class="form-control", placeholder="e.g., 50.00") }}
-        </div>
+    <div class="form-group">
+      {{ form.price_per_kg.label(class="form-label") }} {{
+      form.price_per_kg(class="form-control", placeholder="e.g., 50.00") }}
+    </div>
 
-        <div class="form-group">
-            {{ form.location.label(class="form-label") }}
-            {{ form.location(class="form-control", placeholder="e.g., Dhanmondi, Dhaka") }}
-        </div>
-        
-        <div class="form-group">
-            {{ form.phone_number.label(class="form-label") }}
-            {{ form.phone_number(class="form-control", placeholder="Your contact number") }}
-        </div>
+    <div class="form-group">
+      {{ form.location.label(class="form-label") }} {{
+      form.location(class="form-control", placeholder="e.g., Dhanmondi, Dhaka")
+      }}
+    </div>
 
-        <div class="form-group">
-            {{ form.google_map_link.label(class="form-label") }}
-            {{ form.google_map_link(class="form-control", placeholder="http://googleusercontent.com/maps.google.com/...") }}
-        </div>
-        
-        <div class="form-group">
-            {{ form.description.label(class="form-label") }}
-            {{ form.description(class="form-control", rows="4", placeholder="Provide a short description...") }}
-        </div>
+    <div class="form-group">
+      {{ form.phone_number.label(class="form-label") }} {{
+      form.phone_number(class="form-control", placeholder="Your contact number")
+      }}
+    </div>
 
-        <div class="form-group">
-            {{ form.is_negotiable() }}
-            {{ form.is_negotiable.label(class="form-label ms-2") }}
-        </div>
+    <div class="form-group">
+      {{ form.google_map_link.label(class="form-label") }} {{
+      form.google_map_link(class="form-control",
+      placeholder="http://googleusercontent.com/maps.google.com/...") }}
+    </div>
 
-        <div class="form-group">
-            {{ form.picture.label(class="form-label") }}
-            {{ form.picture(class="form-control") }}
-        </div>
+    <div class="form-group">
+      {{ form.description.label(class="form-label") }} {{
+      form.description(class="form-control", rows="4", placeholder="Provide a
+      short description...") }}
+    </div>
 
-        <div>
-            {{ form.submit(class="form-btn") }}
-        </div>
-    </form>
+    <div class="form-group">
+      {{ form.is_negotiable() }} {{ form.is_negotiable.label(class="form-label
+      ms-2") }}
+    </div>
+
+    <div class="form-group">
+      {{ form.picture.label(class="form-label") }} {{
+      form.picture(class="form-control") }}
+    </div>
+
+    <div>{{ form.submit(class="form-btn") }}</div>
+  </form>
 </div>
 {% endblock %}

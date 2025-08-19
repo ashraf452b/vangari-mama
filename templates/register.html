@@ -1,47 +1,44 @@
-{% extends "base.html" %}
-
-{% block title %}Sign Up - Vangari Mama{% endblock %}
-
+{% extends "base.html" %} {% block title %}Sign Up - Vangari Mama{% endblock %}
 {% block content %}
 <div class="form-container">
-    <div class="form-header">
-        <h1>Create an Account</h1>
-        <p>Join our community to buy and sell scrap materials.</p>
+  <div class="form-header">
+    <h1>Create an Account</h1>
+    <p>Join our community to buy and sell scrap materials.</p>
+  </div>
+  <form method="POST" action="{{ url_for('register') }}" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+      {{ form.username.label(class="form-label") }} {{
+      form.username(class="form-control", placeholder="Choose a username") }}
     </div>
-    <form method="POST" action="{{ url_for('register') }}" novalidate>
-        {{ form.hidden_tag() }}
-        
-        <div class="form-group">
-            {{ form.username.label(class="form-label") }}
-            {{ form.username(class="form-control", placeholder="Choose a username") }}
-        </div>
 
-        <div class="form-group">
-            {{ form.email.label(class="form-label") }}
-            {{ form.email(class="form-control", placeholder="you@example.com") }}
-        </div>
-
-        <div class="form-group">
-            {{ form.user_type.label(class="form-label") }}
-            {{ form.user_type(class="form-control") }}
-        </div>
-        
-        <div class="form-group">
-            {{ form.password.label(class="form-label") }}
-            {{ form.password(class="form-control", placeholder="Create a strong password") }}
-        </div>
-
-        <div class="form-group">
-            {{ form.confirm_password.label(class="form-label") }}
-            {{ form.confirm_password(class="form-control", placeholder="Confirm your password") }}
-        </div>
-
-        <div>
-            {{ form.submit(class="form-btn") }}
-        </div>
-    </form>
-    <div class="form-switch-link">
-        <p>Already have an account? <a href="{{ url_for('login') }}">Sign In</a></p>
+    <div class="form-group">
+      {{ form.email.label(class="form-label") }} {{
+      form.email(class="form-control", placeholder="you@example.com") }}
     </div>
+
+    <div class="form-group">
+      {{ form.user_type.label(class="form-label") }} {{
+      form.user_type(class="form-control") }}
+    </div>
+
+    <div class="form-group">
+      {{ form.password.label(class="form-label") }} {{
+      form.password(class="form-control", placeholder="Create a strong
+      password") }}
+    </div>
+
+    <div class="form-group">
+      {{ form.confirm_password.label(class="form-label") }} {{
+      form.confirm_password(class="form-control", placeholder="Confirm your
+      password") }}
+    </div>
+
+    <div>{{ form.submit(class="form-btn") }}</div>
+  </form>
+  <div class="form-switch-link">
+    <p>Already have an account? <a href="{{ url_for('login') }}">Sign In</a></p>
+  </div>
 </div>
 {% endblock %}

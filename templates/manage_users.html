@@ -1,42 +1,45 @@
-{% extends "base.html" %}
-{% block title %}Manage Users{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Manage Users{% endblock %} {% block
+content %}
 <div class="container">
-    <div class="dashboard-header">
-        <h1>Manage Users</h1>
-        <p>View, edit, or delete users from this panel.</p>
+  <div class="dashboard-header">
+    <h1>Manage Users</h1>
+    <p>View, edit, or delete users from this panel.</p>
+  </div>
+  <div class="admin-card">
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>User Type</th>
+            <th>Is Admin?</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.user_type.title() }}</td>
+            <td>{{ 'Yes' if user.is_admin else 'No' }}</td>
+            <td>
+              <form
+                action="{{ url_for('delete_user', user_id=user.id) }}"
+                method="POST"
+                onsubmit="return confirm('Are you sure you want to delete this user?');"
+              >
+                <button type="submit" class="btn-delete">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-    <div class="admin-card">
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>User Type</th>
-                        <th>Is Admin?</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user in users %}
-                    <tr>
-                        <td>{{ user.id }}</td>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.user_type.title() }}</td>
-                        <td>{{ 'Yes' if user.is_admin else 'No' }}</td>
-                        <td>
-                            <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                <button type="submit" class="btn-delete">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+  </div>
 </div>
 {% endblock %}

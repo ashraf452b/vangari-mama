@@ -1,39 +1,54 @@
-{% extends "base.html" %}
-
-{% block title %}Available Posts - Vangari Mama{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Available Posts - Vangari Mama{%
+endblock %} {% block content %}
 <div class="container">
-    <div class="page-header">
-        <h1>Available Scrap Posts</h1>
-        <p>Find the latest posts from users looking to sell their scrap materials.</p>
-    </div>
+  <div class="page-header">
+    <h1>Available Scrap Posts</h1>
+    <p>
+      Find the latest posts from users looking to sell their scrap materials.
+    </p>
+  </div>
 
-    <div class="post-grid">
-        {% if posts %}
-            {% for post in posts %}
-            <div class="post-card">
-                <div class="post-card-header">
-                    <h2>{{ post.trash_type.title() }}</h2>
-                    <span class="post-card-price">৳{{ "%.2f"|format(post.price_per_kg) }}/Kg</span>
-                </div>
-                <div class="post-card-body">
-                    <p><i class="fas fa-user"></i> <strong>Posted by:</strong> {{ post.owner.username }}</p>
-                    <p><i class="fas fa-balance-scale"></i> <strong>Approx. Quantity:</strong> {{ post.quantity }} units</p>
-                    <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> {{ post.location }}</p>
-                </div>
-                <div class="post-card-footer">
-                    <a href="{{ url_for('view_post', post_id=post.id) }}" class="view-details-btn">View Details & Make Offer</a>
-                </div>
-            </div>
-            {% endfor %}
-        {% else %}
-            <div class="empty-state-full-width">
-                <i class="fas fa-box-open"></i>
-                <h3>No Available Posts Right Now</h3>
-                <p>It looks like there are no scrap posts at the moment. Please check back later!</p>
-            </div>
-        {% endif %}
+  <div class="post-grid">
+    {% if posts %} {% for post in posts %}
+    <div class="post-card">
+      <div class="post-card-header">
+        <h2>{{ post.trash_type.title() }}</h2>
+        <span class="post-card-price"
+          >৳{{ "%.2f"|format(post.price_per_kg) }}/Kg</span
+        >
+      </div>
+      <div class="post-card-body">
+        <p>
+          <i class="fas fa-user"></i> <strong>Posted by:</strong> {{
+          post.owner.username }}
+        </p>
+        <p>
+          <i class="fas fa-balance-scale"></i>
+          <strong>Approx. Quantity:</strong> {{ post.quantity }} units
+        </p>
+        <p>
+          <i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> {{
+          post.location }}
+        </p>
+      </div>
+      <div class="post-card-footer">
+        <a
+          href="{{ url_for('view_post', post_id=post.id) }}"
+          class="view-details-btn"
+          >View Details & Make Offer</a
+        >
+      </div>
     </div>
+    {% endfor %} {% else %}
+    <div class="empty-state-full-width">
+      <i class="fas fa-box-open"></i>
+      <h3>No Available Posts Right Now</h3>
+      <p>
+        It looks like there are no scrap posts at the moment. Please check back
+        later!
+      </p>
+    </div>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}

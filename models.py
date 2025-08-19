@@ -83,7 +83,7 @@ class TrashPost(db.Model):
     def get_available():
         return TrashPost.query.filter_by(status='available').order_by(TrashPost.created_at.desc()).all()
     
-    # আপনার create মেথডটি নতুন image_file ফিল্ড সহ আপডেট করা হয়েছে
+
     @staticmethod
     def create(user_id, trash_type, quantity, location, description, price_per_kg, is_negotiable, phone_number, google_map_link, image_file='default.jpg'):
         post = TrashPost(user_id=user_id, trash_type=trash_type, quantity=quantity, location=location, description=description, price_per_kg=price_per_kg, is_negotiable=is_negotiable, phone_number=phone_number, google_map_link=google_map_link, image_file=image_file)

@@ -1,98 +1,98 @@
-{% extends "base.html" %}
-
-{% block title %}Admin Panel - Vangari Mama{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Admin Panel - Vangari Mama{% endblock
+%} {% block content %}
 <div class="container">
-    <div class="dashboard-header">
-        <h1>Admin Panel</h1>
-        <p>Welcome, {{ current_user.username }}. Here's the platform overview.</p>
-    </div>
+  <div class="dashboard-header">
+    <h1>Admin Panel</h1>
+    <p>Welcome, {{ current_user.username }}. Here's the platform overview.</p>
+  </div>
 
-    <div class="stats-grid">
-        <div class="stat-card">
-            <i class="fas fa-users"></i>
-            <div class="stat-info">
-                <h4>Total Users</h4>
-                <p>{{ total_users }}</p>
-            </div>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-file-alt"></i>
-            <div class="stat-info">
-                <h4>Total Posts</h4>
-                <p>{{ total_posts }}</p>
-            </div>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-dollar-sign"></i>
-            <div class="stat-info">
-                <h4>Total Sales</h4>
-                <p>৳ {{ "%.2f"|format(total_sales) }}</p>
-            </div>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-chart-line"></i>
-            <div class="stat-info">
-                <h4>Total Profit</h4>
-                <p>৳ {{ "%.2f"|format(total_profit) }}</p>
-            </div>
-        </div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <i class="fas fa-users"></i>
+      <div class="stat-info">
+        <h4>Total Users</h4>
+        <p>{{ total_users }}</p>
+      </div>
     </div>
+    <div class="stat-card">
+      <i class="fas fa-file-alt"></i>
+      <div class="stat-info">
+        <h4>Total Posts</h4>
+        <p>{{ total_posts }}</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-dollar-sign"></i>
+      <div class="stat-info">
+        <h4>Total Sales</h4>
+        <p>৳ {{ "%.2f"|format(total_sales) }}</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-chart-line"></i>
+      <div class="stat-info">
+        <h4>Total Profit</h4>
+        <p>৳ {{ "%.2f"|format(total_profit) }}</p>
+      </div>
+    </div>
+  </div>
 
-    <div class="admin-grid">
-        <div class="admin-card">
-            <h3 class="card-title">Recent Users</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>User Type</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for user in recent_users %}
-                        <tr>
-                            <td>{{ user.username }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.user_type.title() }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="admin-card">
-            <h3 class="card-title">Recent Transactions</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Post Type</th>
-                            <th>Total Value</th>
-                            <th>Profit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for transaction in recent_transactions %}
-                        <tr>
-                            <td>{{ transaction.trash_type.title() }}</td>
-                            <td>৳ {{ "%.2f"|format(transaction.total_transaction_value) }}</td>
-                            <td>৳ {{ "%.2f"|format(transaction.platform_profit) }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <div class="admin-grid">
+    <div class="admin-card">
+      <h3 class="card-title">Recent Users</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th>User Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in recent_users %}
+            <tr>
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.user_type.title() }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-    
-    <div class="admin-card" style="margin-top: 2rem;">
-        <h3 class="card-title">Quick Actions</h3>
-        <a href="{{ url_for('manage_users') }}" class="btn-getstarted">Manage All Users</a>
+    <div class="admin-card">
+      <h3 class="card-title">Recent Transactions</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Post Type</th>
+              <th>Total Value</th>
+              <th>Profit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for transaction in recent_transactions %}
+            <tr>
+              <td>{{ transaction.trash_type.title() }}</td>
+              <td>
+                ৳ {{ "%.2f"|format(transaction.total_transaction_value) }}
+              </td>
+              <td>৳ {{ "%.2f"|format(transaction.platform_profit) }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
 
+  <div class="admin-card" style="margin-top: 2rem">
+    <h3 class="card-title">Quick Actions</h3>
+    <a href="{{ url_for('manage_users') }}" class="btn-getstarted"
+      >Manage All Users</a
+    >
+  </div>
 </div>
 {% endblock %}
