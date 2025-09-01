@@ -1,8 +1,8 @@
-# ScrapMama - Trash Collection Marketplace
+# VangariMama - Trash Collection Marketplace
 
 ## Overview
 
-ScrapMama is a Flask-based web application that serves as a marketplace connecting waste sellers with collectors. The platform allows users to post their recyclable items for sale with custom pricing (including negotiable options), and enables collectors to find and purchase items. The application promotes environmental sustainability by facilitating efficient waste collection and recycling while providing monetary incentives.
+VangariMama is a Flask-based web application that serves as a marketplace connecting waste sellers with collectors. The platform allows users to post their recyclable items for sale with custom pricing (including negotiable options), and enables collectors to find and purchase items. The application promotes environmental sustainability by facilitating efficient waste collection and recycling while providing monetary incentives.
 
 ## System Architecture
 
