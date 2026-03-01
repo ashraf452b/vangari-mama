@@ -1,4 +1,4 @@
-# ScrapMama - Trash Collection Marketplace
+# VangariMama - Trash Collection Marketplace
 
 A web application connecting waste generators with collectors, featuring a reward point system to encourage sustainable waste management.
 
