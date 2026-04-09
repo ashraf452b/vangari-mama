@@ -1,0 +1,5 @@
+uv.lock
+req.md
+pyproject.toml
+.req
+.env.example
